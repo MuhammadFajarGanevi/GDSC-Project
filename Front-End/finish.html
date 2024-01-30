@@ -1,37 +1,41 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="layout/main.css">
-    <link rel="shortcut icon" href="logo.jpg" type="image/x-icon">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="layout/main.css" />
+    <link rel="shortcut icon" href="logo.png" type="image/x-icon" />
     <title>Game</title>
-</head>
+  </head>
 
-<body>
+  <body>
     <audio src="assets/backsounds/start.mp3" id="startAudio"></audio>
     <!-- https://unpkg.com/three@0.122.0/build/three.module.js -->
     <!-- ./node_modules/three/build/three.module.js -->
-    <script type="importmap">{ "imports": {
-            "three": "https://unpkg.com/three@0.122.0/build/three.module.js",
-            "cannon-es": "https://unpkg.com/cannon-es/dist/cannon-es.js"
-    }}</script>
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "https://unpkg.com/three@0.122.0/build/three.module.js",
+          "cannon-es": "https://unpkg.com/cannon-es/dist/cannon-es.js"
+        }
+      }
+    </script>
     <div id="instructions">
-        <button onclick="playMusic()" style="padding: 1rem; z-index: 999;">Music?</button>
-        <a href="Level_0.html">
-            <span>🎉🎉 Selamat kamu telah menamatkan game ini!! 🎉🎉</span><br>
-            Restart game?
-        </a>
+      <button onclick="playMusic()" style="padding: 1rem; z-index: 999">
+        Music?
+      </button>
+      <a href="Level_0.html">
+        <span>🎉🎉 Selamat kamu telah menamatkan game ini!! 🎉🎉</span><br />
+        Restart game?
+      </a>
     </div>
     <!-- <script type="module" src="app/PointerLockControlsCannon.js"></script> -->
     <script type="module" src="app/map/Start.js"></script>
     <script>
-        function playMusic () {
-            document.getElementById('startAudio').play();
-        }
-        window.onload = playMusic;
+      function playMusic() {
+        document.getElementById("startAudio").play();
+      }
+      window.onload = playMusic;
     </script>
-</body>
-
+  </body>
 </html>
