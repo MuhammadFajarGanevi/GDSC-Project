@@ -3,11 +3,11 @@
 Untuk mendownload semua depedensi
 
 ```
-~$ npm install
+~$ pnpm install
 ```
 
 Menjalankan project lokal selama pengembangan
 
 ```
-~$ npm run dev
+~$ pnpm dev
 ```
