@@ -1,3 +1,3 @@
-# just run game
+# penjualan laptop
 
 ## about
