@@ -1,0 +1,572 @@
+openapi: "3.0.2"
+info:
+  title: API Laptopers
+  version: "1.0"
+servers:
+  - url: http://localhost:8000/api
+tags:
+  - name: Kelola data user
+    description: Untuk melakukan Kelola data user
+  - name: Kelola data laptop
+    description: Untuk melakukan Kelola data laptop
+  - name: Kelola data order
+    description: Untuk melakukan Kelola data order
+  - name: Kelola data cart
+    description: Untuk melakukan Kelola data cart
+  - name: Auth
+    description: Untuk melakukan authentikasi
+paths:
+  /user:
+    get:
+      tags:
+        - Kelola data user
+      summary: MELIHAT data user
+      requestBody:
+        description: Mendapatkan data user
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                search:
+                  type: string
+      responses:
+        200:
+          description: CREATED
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  user:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        email:
+                          type: string
+                        nama:
+                          type: string
+                        alamat:
+                          type: string
+                        no_telp:
+                          type: string
+                        role:
+                          type: string
+                  jumlah_data:
+                    type: integer
+        400:
+          description: BAD REQUEST
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+              example:
+                errors:
+                  message: "Data ... tidak valid"
+    post:
+      tags:
+        - Kelola data user
+      summary: MENAMBAH data user
+      requestBody:
+        description: Data user yang diperlukan
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                nama:
+                  type: string
+                email:
+                  type: string
+                password:
+                  type: string
+      responses:
+        200:
+          description: CREATED
+          content:
+            application/json:
+              example:
+                success:
+                  message: "Akun berhasil dibuat"
+        400:
+          description: BAD REQUEST
+          content:
+            application/json:
+              example:
+                errors:
+                  message: "Data ... tidak valid"
+    put:
+      tags:
+        - Kelola data user
+      summary: MENGUBAH data user
+      requestBody:
+        description: Data user yang diperlukan
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                nama:
+                  type: string
+                alamat:
+                  type: string
+                no_telp:
+                  type: string
+      responses:
+        200:
+          description: CREATED
+          content:
+            application/json:
+              example:
+                success:
+                  message: "Data berhasil diubah"
+        400:
+          description: BAD REQUEST
+          content:
+            application/json:
+              example:
+                errors:
+                  message: "Data ... tidak valid"
+    delete:
+      tags:
+        - Kelola data user
+      summary: MENGHAPUS data user
+      requestBody:
+        description: Data user yang diperlukan
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id_user:
+                  type: integer
+      responses:
+        200:
+          description: CREATED
+          content:
+            application/json:
+              example:
+                success:
+                  message: "Data berhasil dihapus dari user"
+        400:
+          description: BAD REQUEST
+          content:
+            application/json:
+              example:
+                errors:
+                  message: "Terjadi kesalahan data"
+
+  /auth/login:
+    post:
+      tags:
+        - Auth
+      summary: Login
+      requestBody:
+        description: Mendapatkan data user
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+      responses:
+        200:
+          description: CREATED
+          content:
+            application/json:
+              example:
+                success:
+                  message: "Berhasil login"
+        400:
+          description: BAD REQUEST
+          content:
+            application/json:
+              example:
+                errors:
+                  message: "Email atau Password salah"
+  /auth/reset-password:
+    post:
+      tags:
+        - Auth
+      summary: Login
+      requestBody:
+        description: Mendapatkan data user
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                old_password:
+                  type: string
+                new_password:
+                  type: string
+                confirm_password:
+                  type: string
+      responses:
+        200:
+          description: CREATED
+          content:
+            application/json:
+              example:
+                success:
+                  message: "Password berhasil diubah"
+        400:
+          description: BAD REQUEST
+          content:
+            application/json:
+              example:
+                errors:
+                  message: "Kesalahan input data"
+  /laptop:
+    get:
+      tags:
+        - Kelola data laptop
+      summary: MELIHAT data laptop
+      requestBody:
+        description: Mendapatkan data laptop
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id_laptop:
+                  type: integer
+                search:
+                  type: string
+      responses:
+        200:
+          description: CREATED
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  laptop:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        harga:
+                          type: integer
+                        nama:
+                          type: string
+                        model:
+                          type: string
+                        ram:
+                          type: string
+                        cpu:
+                          type: string
+                        vga:
+                          type: string
+                        qty:
+                          type: string
+                  jumlah_data:
+                    type: integer
+                  akumulasi_harga:
+                    type: integer
+        400:
+          description: BAD REQUEST
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+              example:
+                errors:
+                  message: "Data ... tidak valid"
+    put:
+      tags:
+        - Kelola data laptop
+      summary: MENGUBAH data laptop
+      requestBody:
+        description: Data laptop yang diperlukan
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                qty:
+                  type: integer
+      responses:
+        200:
+          description: CREATED
+          content:
+            application/json:
+              example:
+                success:
+                  message: "Stok laptop berhasil diupdate"
+        400:
+          description: BAD REQUEST
+          content:
+            application/json:
+              example:
+                errors:
+                  message: "Data ... tidak valid"
+
+  /cart:
+    get:
+      tags:
+        - Kelola data cart
+      summary: MELIHAT data cart
+      requestBody:
+        description: Mendapatkan data cart
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id_user:
+                  type: integer
+      responses:
+        200:
+          description: CREATED
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  cart:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        nama:
+                          type: string
+                        qty:
+                          type: integer
+                        harga_total:
+                          type: integer
+                  jumlah_data:
+                    type: integer
+        400:
+          description: BAD REQUEST
+          content:
+            application/json:
+              example:
+                errors:
+                  message: "Data ... tidak valid"
+    post:
+      tags:
+        - Kelola data cart
+      summary: MENAMBAH data cart
+      requestBody:
+        description: Data cart yang diperlukan
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id_user:
+                  type: integer
+                id_laptop:
+                  type: integer
+                qty:
+                  type: integer
+      responses:
+        200:
+          description: CREATED
+          content:
+            application/json:
+              example:
+                success:
+                  message: "Barang sudah masuk ke keranjang"
+        400:
+          description: BAD REQUEST
+          content:
+            application/json:
+              example:
+                errors:
+                  message: "Kesalahan input data"
+    put:
+      tags:
+        - Kelola data cart
+      summary: MENGUBAH data cart
+      requestBody:
+        description: Data cart yang diperlukan
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id_cart:
+                  type: integer
+                qty:
+                  type: integer
+      responses:
+        200:
+          description: CREATED
+          content:
+            application/json:
+              example:
+                success:
+                  message: "Data berhasil diubah"
+        400:
+          description: BAD REQUEST
+          content:
+            application/json:
+              example:
+                errors:
+                  message: "Data ... tidak valid"
+    delete:
+      tags:
+        - Kelola data cart
+      summary: MENGHAPUS data cart
+      requestBody:
+        description: Data cart yang diperlukan
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id_cart:
+                  type: integer
+      responses:
+        200:
+          description: CREATED
+          content:
+            application/json:
+              example:
+                success:
+                  message: "Data berhasil dihapus dari cart"
+        400:
+          description: BAD REQUEST
+          content:
+            application/json:
+              example:
+                errors:
+                  message: "Terjadi kesalahan data"
+
+  /order:
+    get:
+      tags:
+        - Kelola data order
+      summary: MELIHAT data order
+      requestBody:
+        description: Mendapatkan data order
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id_user:
+                  type: integer
+      responses:
+        200:
+          description: CREATED
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  order:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        nama:
+                          type: string
+                        qty:
+                          type: integer
+                        harga_total:
+                          type: integer
+                  jumlah_data:
+                    type: integer
+        400:
+          description: BAD REQUEST
+          content:
+            application/json:
+              example:
+                errors:
+                  message: "Data ... tidak valid"
+    post:
+      tags:
+        - Kelola data order
+      summary: MENAMBAH data order
+      requestBody:
+        description: Data order yang diperlukan
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id_user:
+                  type: integer
+                id_laptop:
+                  type: integer
+                qty:
+                  type: integer
+      responses:
+        200:
+          description: CREATED
+          content:
+            application/json:
+              example:
+                success:
+                  message: "Barang berhasil dipesan"
+        400:
+          description: BAD REQUEST
+          content:
+            application/json:
+              example:
+                errors:
+                  message: "Kesalahan input data"
+    put:
+      tags:
+        - Kelola data order
+      summary: MENGUBAH data order
+      requestBody:
+        description: Data order yang diperlukan
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id_order:
+                  type: integer
+      responses:
+        200:
+          description: CREATED
+          content:
+            application/json:
+              example:
+                success:
+                  message: "Pembayaran berhasil"
+        400:
+          description: BAD REQUEST
+          content:
+            application/json:
+              example:
+                errors:
+                  message: "Proses pembayaran error"
