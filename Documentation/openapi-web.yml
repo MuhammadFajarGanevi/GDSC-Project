@@ -1,6 +1,6 @@
 openapi: "3.0.2"
 info:
-  title: API Laptop Sejatera
+  title: API Laptopers
   version: "1.0"
 servers:
   - url: http://localhost:8000/api
@@ -31,6 +31,8 @@ paths:
               properties:
                 email:
                   type: string
+                search:
+                  type: string
       responses:
         200:
           description: CREATED
@@ -39,14 +41,23 @@ paths:
               schema:
                 type: object
                 properties:
-                  email:
-                    type: string
-                  nama:
-                    type: string
-                  alamat:
-                    type: string
-                  no_telp:
-                    type: string
+                  user:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        email:
+                          type: string
+                        nama:
+                          type: string
+                        alamat:
+                          type: string
+                        no_telp:
+                          type: string
+                        role:
+                          type: string
+                  jumlah_data:
+                    type: integer
         400:
           description: BAD REQUEST
           content:
@@ -128,6 +139,35 @@ paths:
               example:
                 errors:
                   message: "Data ... tidak valid"
+    delete:
+      tags:
+        - Kelola data user
+      summary: MENGHAPUS data user
+      requestBody:
+        description: Data user yang diperlukan
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id_user:
+                  type: integer
+      responses:
+        200:
+          description: CREATED
+          content:
+            application/json:
+              example:
+                success:
+                  message: "Data berhasil dihapus dari user"
+        400:
+          description: BAD REQUEST
+          content:
+            application/json:
+              example:
+                errors:
+                  message: "Terjadi kesalahan data"
 
   /auth/login:
     post:
@@ -220,20 +260,29 @@ paths:
               schema:
                 type: object
                 properties:
-                  harga:
+                  laptop:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        harga:
+                          type: integer
+                        nama:
+                          type: string
+                        model:
+                          type: string
+                        ram:
+                          type: string
+                        cpu:
+                          type: string
+                        vga:
+                          type: string
+                        qty:
+                          type: string
+                  jumlah_data:
                     type: integer
-                  nama:
-                    type: string
-                  model:
-                    type: string
-                  ram:
-                    type: string
-                  cpu:
-                    type: string
-                  vga:
-                    type: string
-                  qty:
-                    type: string
+                  akumulasi_harga:
+                    type: integer
         400:
           description: BAD REQUEST
           content:
@@ -302,11 +351,18 @@ paths:
               schema:
                 type: object
                 properties:
-                  nama:
-                    type: string
-                  qty:
-                    type: integer
-                  harga_total:
+                  cart:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        nama:
+                          type: string
+                        qty:
+                          type: integer
+                        harga_total:
+                          type: integer
+                  jumlah_data:
                     type: integer
         400:
           description: BAD REQUEST
@@ -382,7 +438,7 @@ paths:
     delete:
       tags:
         - Kelola data cart
-      summary: MENGUBAH data cart
+      summary: MENGHAPUS data cart
       requestBody:
         description: Data cart yang diperlukan
         required: true
@@ -432,11 +488,18 @@ paths:
               schema:
                 type: object
                 properties:
-                  nama:
-                    type: string
-                  qty:
-                    type: integer
-                  harga_total:
+                  order:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        nama:
+                          type: string
+                        qty:
+                          type: integer
+                        harga_total:
+                          type: integer
+                  jumlah_data:
                     type: integer
         400:
           description: BAD REQUEST
