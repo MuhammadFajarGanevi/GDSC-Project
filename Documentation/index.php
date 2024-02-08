@@ -14,7 +14,7 @@
   <script>
     window.onload = function () {
       const ui = SwaggerUIBundle({
-        url: "openapi-web.yml",
+        url: "openapi.yml",
         dom_id: "#swagger-ui",
       });
     };
