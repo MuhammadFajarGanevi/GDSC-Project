@@ -8,11 +8,8 @@ async function renderPage(path) {
 
   // Pastikan rute ditemukan
   if (!route) {
-    console.error("404 - Halaman tidak ditemukan");
-    return;
+    window.location.href = "404.html";
   }
-
-  const content = document.getElementById("app");
 
   // Ambil konten layout
   const layoutResponse = await fetch(`./src/layouts/${route.layout}`);
@@ -21,7 +18,7 @@ async function renderPage(path) {
   // Render layout
   const scriptLayout = document.createElement("script");
   scriptLayout.textContent = layoutContent;
-  content.appendChild(scriptLayout);
+  document.head.appendChild(scriptLayout);
 
   // Ambil konten halaman
   const pageResponse = await fetch(`./src/pages/${route.script}`);
@@ -30,12 +27,17 @@ async function renderPage(path) {
   // Render konten halaman
   const scriptContent = document.createElement("script");
   scriptContent.textContent = pageContent;
-  content.appendChild(scriptContent);
+  scriptContent.type = "module";
+  document.head.appendChild(scriptContent);
 }
 
-function navigate() {
+async function navigate() {
   const path = window.location.pathname;
-  renderPage(path);
+  await renderPage(path);
+
+  setTimeout(function () {
+    document.getElementById("loaderContainer").remove();
+  }, 100);
 }
 
 window.addEventListener("popstate", navigate);
