@@ -1,0 +1,39 @@
+input {
+  width: 100%;
+}
+
+#content {
+  height: 100vh;
+}
+
+#logo {
+  height: 60px;
+}
+
+button {
+  width: 100%;
+}
+
+.card {
+  max-width: 380px;
+  padding: 3rem 2.25rem;
+}
+
+#tanaman-kanan {
+  right: 0;
+  bottom: 0;
+  position: absolute;
+}
+
+#tanaman-kiri {
+  left: 0;
+  bottom: 0;
+  position: absolute;
+}
+
+#latar {
+  bottom: 0;
+  z-index: -1;
+  width: 100%;
+  position: absolute;
+}

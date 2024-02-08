@@ -5,9 +5,10 @@ function renderHomePage() {
     <!-- Navbar content here -->
     <nav>
       <ul>
-        <li><a href="#/">Home</a></li>
-        <li><a href="#/akun">Akun</a></li>
-        <li><a href="#/penjualan">Penjualan</a></li>
+        <li><a href="/">Home</a></li>
+        <li><a href="/akun">Akun</a></li>
+        <li><a href="/penjualan">Penjualan</a></li>
+        <li><a href="/login">Logout</a></li>
       </ul>
     </nav>
   </header>

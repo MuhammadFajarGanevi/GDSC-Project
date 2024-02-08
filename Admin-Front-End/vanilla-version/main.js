@@ -1,4 +1,6 @@
 import { routes } from "./src/navigation/routes.js";
+import "./style.css";
+import "./color.css";
 
 async function renderPage(path) {
   // Ambil data rute yang sesuai
