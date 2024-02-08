@@ -3,7 +3,7 @@ info:
   title: API Laptopers
   version: "1.0"
 servers:
-  - url: http://localhost:8000/api
+  - url: http://localhost:3000/
 tags:
   - name: Kelola data user
     description: Untuk melakukan Kelola data user
@@ -35,7 +35,7 @@ paths:
                   type: string
       responses:
         200:
-          description: CREATED
+          description: OK
           content:
             application/json:
               schema:
@@ -92,7 +92,7 @@ paths:
                 password:
                   type: string
       responses:
-        200:
+        201:
           description: CREATED
           content:
             application/json:
@@ -126,7 +126,7 @@ paths:
                   type: string
       responses:
         200:
-          description: CREATED
+          description: OK
           content:
             application/json:
               example:
@@ -155,7 +155,7 @@ paths:
                   type: integer
       responses:
         200:
-          description: CREATED
+          description: OK
           content:
             application/json:
               example:
@@ -187,7 +187,7 @@ paths:
                 password:
                   type: string
       responses:
-        200:
+        201:
           description: CREATED
           content:
             application/json:
@@ -221,7 +221,7 @@ paths:
                 confirm_password:
                   type: string
       responses:
-        200:
+        201:
           description: CREATED
           content:
             application/json:
@@ -254,7 +254,7 @@ paths:
                   type: string
       responses:
         200:
-          description: CREATED
+          description: OK
           content:
             application/json:
               schema:
@@ -269,8 +269,6 @@ paths:
                           type: integer
                         nama:
                           type: string
-                        model:
-                          type: string
                         ram:
                           type: string
                         cpu:
@@ -280,8 +278,6 @@ paths:
                         qty:
                           type: string
                   jumlah_data:
-                    type: integer
-                  akumulasi_harga:
                     type: integer
         400:
           description: BAD REQUEST
@@ -310,11 +306,13 @@ paths:
             schema:
               type: object
               properties:
+                id_laptop:
+                  type: integer
                 qty:
                   type: integer
       responses:
         200:
-          description: CREATED
+          description: OK
           content:
             application/json:
               example:
@@ -345,13 +343,13 @@ paths:
                   type: integer
       responses:
         200:
-          description: CREATED
+          description: OK
           content:
             application/json:
               schema:
                 type: object
                 properties:
-                  cart:
+                  laptop:
                     type: array
                     items:
                       type: object
@@ -363,6 +361,8 @@ paths:
                         harga_total:
                           type: integer
                   jumlah_data:
+                    type: integer
+                  akumulasi_harga:
                     type: integer
         400:
           description: BAD REQUEST
@@ -390,7 +390,7 @@ paths:
                 qty:
                   type: integer
       responses:
-        200:
+        201:
           description: CREATED
           content:
             application/json:
@@ -422,7 +422,7 @@ paths:
                   type: integer
       responses:
         200:
-          description: CREATED
+          description: OK
           content:
             application/json:
               example:
@@ -451,7 +451,7 @@ paths:
                   type: integer
       responses:
         200:
-          description: CREATED
+          description: OK
           content:
             application/json:
               example:
@@ -482,13 +482,13 @@ paths:
                   type: integer
       responses:
         200:
-          description: CREATED
+          description: OK
           content:
             application/json:
               schema:
                 type: object
                 properties:
-                  order:
+                  laptop:
                     type: array
                     items:
                       type: object
@@ -500,6 +500,8 @@ paths:
                         harga_total:
                           type: integer
                   jumlah_data:
+                    type: integer
+                  akumulasi_harga:
                     type: integer
         400:
           description: BAD REQUEST
@@ -527,7 +529,7 @@ paths:
                 qty:
                   type: integer
       responses:
-        200:
+        201:
           description: CREATED
           content:
             application/json:
@@ -557,7 +559,7 @@ paths:
                   type: integer
       responses:
         200:
-          description: CREATED
+          description: OK
           content:
             application/json:
               example:

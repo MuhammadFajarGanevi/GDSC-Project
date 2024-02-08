@@ -4,7 +4,7 @@
 ~$ pnpm install
 ```
 
-# Jalankan web
+## Jalankan web
 
 ```
 ~$ pnpm dev
