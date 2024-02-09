@@ -6,10 +6,242 @@
     <link rel="laptopers icon" href="logo.png" />
     <link rel="icon" href="logo.png" type="image/x-icon" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+    />
+    <link rel="stylesheet" href="style.css" />
     <link rel="stylesheet" href="color.css" />
-    <title>Vite App</title>
+    <title>Laptopers</title>
   </head>
   <body>
+    <div id="loaderContainer">
+      <style>
+        #loaderContainer {
+          position: absolute;
+          height: 100vh;
+          width: 100vw;
+          left: 0;
+          top: 0;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          z-index: 3;
+          flex-direction: column;
+          background-color: #fff;
+          color: var(--primary);
+        }
+      </style>
+      <div class="loader">
+        <style>
+          .loader {
+            --s: 100px;
+
+            --_d: calc(0.353 * var(--s));
+            width: calc(var(--s) + var(--_d));
+            aspect-ratio: 1;
+            display: grid;
+          }
+          .loader:before,
+          .loader:after {
+            content: "";
+            clip-path: polygon(
+              var(--_d) 0,
+              100% 0,
+              100% calc(100% - var(--_d)),
+              calc(100% - var(--_d)) 100%,
+              0 100%,
+              0 var(--_d)
+            );
+            background: conic-gradient(
+              from -90deg at var(--s) var(--_d),
+              hsl(var(--primary-h), var(--primary-s), 70%) 135deg,
+              hsl(var(--primary-h), var(--primary-s), 40%) 270deg,
+              hsl(var(--primary-h), var(--primary-s), 66%) 0
+            );
+            animation: l4 1.6s infinite;
+          }
+          .loader:before {
+            z-index: 1;
+            margin-bottom: calc(var(--_d) / -2 - 1px);
+          }
+          .loader:after {
+            margin-top: calc(var(--_d) / -2 - 1px);
+            animation-delay: 0.8s;
+          }
+          @keyframes l4 {
+            0% {
+              transform: translate(0);
+            }
+            16.67% {
+              transform: translate(-40px);
+            }
+            33.33% {
+              transform: translate(40px);
+            }
+            50%,
+            100% {
+              transform: translate(0);
+            }
+          }
+        </style>
+      </div>
+      <div class="textLoader mt-3">
+        <style>
+          .textLoader {
+            --w: 10ch;
+            font-weight: bold;
+            font-family: monospace;
+            font-size: 30px;
+            line-height: 1.4em;
+            letter-spacing: var(--w);
+            width: var(--w);
+            overflow: hidden;
+            white-space: nowrap;
+            color: var(--secondary);
+            text-shadow: calc(0 * var(--w)) 0 var(--secondary),
+              calc(-1 * var(--w)) 0 var(--secondary),
+              calc(-2 * var(--w)) 0 var(--secondary),
+              calc(-3 * var(--w)) 0 var(--secondary),
+              calc(-4 * var(--w)) 0 var(--secondary),
+              calc(-5 * var(--w)) 0 var(--secondary),
+              calc(-6 * var(--w)) 0 var(--secondary),
+              calc(-7 * var(--w)) 0 var(--secondary),
+              calc(-8 * var(--w)) 0 var(--secondary),
+              calc(-9 * var(--w)) 0 var(--secondary);
+            animation: l20 2s infinite linear;
+          }
+          .textLoader:before {
+            content: "Loading...";
+          }
+
+          @keyframes l20 {
+            9.09% {
+              text-shadow: calc(0 * var(--w)) -10px var(--secondary),
+                calc(-1 * var(--w)) 0 var(--secondary),
+                calc(-2 * var(--w)) 0 var(--secondary),
+                calc(-3 * var(--w)) 0 var(--secondary),
+                calc(-4 * var(--w)) 0 var(--secondary),
+                calc(-5 * var(--w)) 0 var(--secondary),
+                calc(-6 * var(--w)) 0 var(--secondary),
+                calc(-7 * var(--w)) 0 var(--secondary),
+                calc(-8 * var(--w)) 0 var(--secondary),
+                calc(-9 * var(--w)) 0 var(--secondary);
+            }
+            18.18% {
+              text-shadow: calc(0 * var(--w)) 0 var(--secondary),
+                calc(-1 * var(--w)) -10px var(--secondary),
+                calc(-2 * var(--w)) 0 var(--secondary),
+                calc(-3 * var(--w)) 0 var(--secondary),
+                calc(-4 * var(--w)) 0 var(--secondary),
+                calc(-5 * var(--w)) 0 var(--secondary),
+                calc(-6 * var(--w)) 0 var(--secondary),
+                calc(-7 * var(--w)) 0 var(--secondary),
+                calc(-8 * var(--w)) 0 var(--secondary),
+                calc(-9 * var(--w)) 0 var(--secondary);
+            }
+            27.27% {
+              text-shadow: calc(0 * var(--w)) 0 var(--secondary),
+                calc(-1 * var(--w)) 0 var(--secondary),
+                calc(-2 * var(--w)) -10px var(--secondary),
+                calc(-3 * var(--w)) 0 var(--secondary),
+                calc(-4 * var(--w)) 0 var(--secondary),
+                calc(-5 * var(--w)) 0 var(--secondary),
+                calc(-6 * var(--w)) 0 var(--secondary),
+                calc(-7 * var(--w)) 0 var(--secondary),
+                calc(-8 * var(--w)) 0 var(--secondary),
+                calc(-9 * var(--w)) 0 var(--secondary);
+            }
+            36.36% {
+              text-shadow: calc(0 * var(--w)) 0 var(--secondary),
+                calc(-1 * var(--w)) 0 var(--secondary),
+                calc(-2 * var(--w)) 0 var(--secondary),
+                calc(-3 * var(--w)) -10px var(--secondary),
+                calc(-4 * var(--w)) 0 var(--secondary),
+                calc(-5 * var(--w)) 0 var(--secondary),
+                calc(-6 * var(--w)) 0 var(--secondary),
+                calc(-7 * var(--w)) 0 var(--secondary),
+                calc(-8 * var(--w)) 0 var(--secondary),
+                calc(-9 * var(--w)) 0 var(--secondary);
+            }
+            45.45% {
+              text-shadow: calc(0 * var(--w)) 0 var(--secondary),
+                calc(-1 * var(--w)) 0 var(--secondary),
+                calc(-2 * var(--w)) 0 var(--secondary),
+                calc(-3 * var(--w)) 0 var(--secondary),
+                calc(-4 * var(--w)) -10px var(--secondary),
+                calc(-5 * var(--w)) 0 var(--secondary),
+                calc(-6 * var(--w)) 0 var(--secondary),
+                calc(-7 * var(--w)) 0 var(--secondary),
+                calc(-8 * var(--w)) 0 var(--secondary),
+                calc(-9 * var(--w)) 0 var(--secondary);
+            }
+            54.54% {
+              text-shadow: calc(0 * var(--w)) 0 var(--secondary),
+                calc(-1 * var(--w)) 0 var(--secondary),
+                calc(-2 * var(--w)) 0 var(--secondary),
+                calc(-3 * var(--w)) 0 var(--secondary),
+                calc(-4 * var(--w)) 0 var(--secondary),
+                calc(-5 * var(--w)) -10px var(--secondary),
+                calc(-6 * var(--w)) 0 var(--secondary),
+                calc(-7 * var(--w)) 0 var(--secondary),
+                calc(-8 * var(--w)) 0 var(--secondary),
+                calc(-9 * var(--w)) 0 var(--secondary);
+            }
+            63.63% {
+              text-shadow: calc(0 * var(--w)) 0 var(--secondary),
+                calc(-1 * var(--w)) 0 var(--secondary),
+                calc(-2 * var(--w)) 0 var(--secondary),
+                calc(-3 * var(--w)) 0 var(--secondary),
+                calc(-4 * var(--w)) 0 var(--secondary),
+                calc(-5 * var(--w)) 0 var(--secondary),
+                calc(-6 * var(--w)) -10px var(--secondary),
+                calc(-7 * var(--w)) 0 var(--secondary),
+                calc(-8 * var(--w)) 0 var(--secondary),
+                calc(-9 * var(--w)) 0 var(--secondary);
+            }
+            72.72% {
+              text-shadow: calc(0 * var(--w)) 0 var(--secondary),
+                calc(-1 * var(--w)) 0 var(--secondary),
+                calc(-2 * var(--w)) 0 var(--secondary),
+                calc(-3 * var(--w)) 0 var(--secondary),
+                calc(-4 * var(--w)) 0 var(--secondary),
+                calc(-5 * var(--w)) 0 var(--secondary),
+                calc(-6 * var(--w)) 0 var(--secondary),
+                calc(-7 * var(--w)) -10px var(--secondary),
+                calc(-8 * var(--w)) 0 var(--secondary),
+                calc(-9 * var(--w)) 0 var(--secondary);
+            }
+            81.81% {
+              text-shadow: calc(0 * var(--w)) 0 var(--secondary),
+                calc(-1 * var(--w)) 0 var(--secondary),
+                calc(-2 * var(--w)) 0 var(--secondary),
+                calc(-3 * var(--w)) 0 var(--secondary),
+                calc(-4 * var(--w)) 0 var(--secondary),
+                calc(-5 * var(--w)) 0 var(--secondary),
+                calc(-6 * var(--w)) 0 var(--secondary),
+                calc(-7 * var(--w)) 0 var(--secondary),
+                calc(-8 * var(--w)) -10px var(--secondary),
+                calc(-9 * var(--w)) 0 var(--secondary);
+            }
+            90.90% {
+              text-shadow: calc(0 * var(--w)) 0 var(--secondary),
+                calc(-1 * var(--w)) 0 var(--secondary),
+                calc(-2 * var(--w)) 0 var(--secondary),
+                calc(-3 * var(--w)) 0 var(--secondary),
+                calc(-4 * var(--w)) 0 var(--secondary),
+                calc(-5 * var(--w)) 0 var(--secondary),
+                calc(-6 * var(--w)) 0 var(--secondary),
+                calc(-7 * var(--w)) 0 var(--secondary),
+                calc(-8 * var(--w)) 0 var(--secondary),
+                calc(-9 * var(--w)) -10px var(--secondary);
+            }
+          }
+        </style>
+      </div>
+    </div>
     <div id="app"></div>
     <script type="module" src="/main.js"></script>
   </body>

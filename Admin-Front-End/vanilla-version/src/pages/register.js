@@ -26,8 +26,14 @@ function render() {
         </div>
       </div>
       <div>
-        <h4 class="mb-1">Login</h4>
-        <p class="mb-3">Silakan login untuk melakukan pembelian di Laptopers</p>
+        <h4 class="mb-1">Registrasi</h4>
+        <p class="mb-3">Daftar untuk akses berbagai fitur tambahan</p>
+      </div>
+      <div class="mb-3">
+        <label>Nama Lengkap</label>
+        <div>
+          <input id="name" />
+        </div>
       </div>
       <div class="mb-3">
         <label>Email</label>
@@ -41,10 +47,22 @@ function render() {
           <input id="password" />
         </div>
       </div>
-      <button class="mb-5" id="submitButton">Login</button>
+      <div class="mb-3">
+        <label>Alamat</label>
+        <div>
+          <input id="alamat" />
+        </div>
+      </div>
+      <div class="mb-3">
+        <label>Nomor Telepon</label>
+        <div>
+          <input id="no_telp" />
+        </div>
+      </div>
+      <button class="mb-5" id="submitButton">submit</button>
       <div class="row ml-1">
         <div class="mr-2">
-          <a href="/register">Buat akun baru</a>
+          <a href="/login">Sudah punya akun</a>
         </div>
         |
         <div class="ml-2">
@@ -60,28 +78,40 @@ function render() {
 }
 
 function setListener() {
-  document.getElementById("submitButton").addEventListener("click", login);
+  document.getElementById("submitButton").addEventListener("click", register);
 }
 
 render();
 
 // Script
 
-async function login() {
+async function register() {
   try {
     const data = {
+      name: document.getElementById("name").value,
       email: document.getElementById("email").value,
       password: document.getElementById("password").value,
+      alamat: document.getElementById("alamat").value,
+      no_telp: document.getElementById("no_telp").value,
     };
-    const response = await AxiosAction.post("/auth/login", data);
+    const response = await AxiosAction.post("/user/signup", data);
 
-    localStorage.setItem(
-      "jwtToken",
-      `Bearer ${response.data.result.accessToken}`
-    );
-    localStorage.setItem("email", data.email);
+    console.log(response);
 
-    window.location.href = "/";
+    await Swal.fire({
+      toast: true,
+      position: "top",
+      iconColor: "white",
+      color: "white",
+      background: "var(--success)",
+      showConfirmButton: false,
+      timerProgressBar: true,
+      timer: 2000,
+      icon: "success",
+      title: "Akun berhasil ditambahkan",
+    });
+
+    // window.location.href = "/login";
   } catch (error) {
     Swal.fire({
       toast: true,
