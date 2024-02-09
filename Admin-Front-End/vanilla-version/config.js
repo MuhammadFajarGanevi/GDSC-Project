@@ -1,4 +1,3 @@
 export const env = {
-  apiUrl: "http://localhost:3000",
-  apiKey: "your-api-key",
+  API_URL: "http://localhost:3000",
 };

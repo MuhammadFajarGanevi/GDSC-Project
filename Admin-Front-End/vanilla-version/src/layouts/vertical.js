@@ -1,22 +1,22 @@
 // Buat fungsi untuk merender konten halaman
 function renderHomePage() {
-  const content = `
-  <header>
-    <!-- Navbar content here -->
-    <nav>
+  const content = /* HTML */ `
+    <link rel="stylesheet" href="./src/style/layout-vertical.css" />
+    <aside>
       <ul>
-        <li><a href="#/">Home</a></li>
-        <li><a href="#/akun">Akun</a></li>
-        <li><a href="#/penjualan">Penjualan</a></li>
+        <li><a href="/">Home</a></li>
+        <li><a href="/akun">Akun</a></li>
+        <li><a href="/penjualan">Penjualan</a></li>
+        <li><a href="/login">Logout</a></li>
       </ul>
-    </nav>
-  </header>
-  <aside>
-    <!-- Sidebar content here -->
-    <p>This is the sidebar</p>
-  </aside>
-  <main id="content"></main>
-    `;
+    </aside>
+    <section>
+      <nav>
+        <p>This is the navbar</p>
+      </nav>
+      <main id="content"></main>
+    </section>
+  `;
   document.getElementById("app").innerHTML = content;
 }
 

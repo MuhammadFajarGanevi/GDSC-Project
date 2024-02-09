@@ -1,7 +1,7 @@
 // Buat fungsi untuk merender konten halaman
 function renderHomePage() {
   const content = `
-    <main id="content"></main>
+    <main id="content" class="d-flex jc-center a-center"></main>
       `;
   document.getElementById("app").innerHTML = content;
 }
