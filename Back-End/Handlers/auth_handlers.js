@@ -5,6 +5,8 @@ const { Router } = require('express')
 
 const { HashFunction } = require('../Utility/hash.js')
 const { JWTUtil } = require('../Utility/jwt.js')
+const { addInvalidToken } = require('../Utility/invalidToken.js')
+
 const { verifyJWTMiddleware } = require('../Middleware/verifyJWTToken.js')
 const { loginValidator } = require('../Middleware/loginValidator.js')
 
@@ -25,6 +27,7 @@ function setupAuthHandler (router, dbConnection) {
 
             const sqlCheckData = `SELECT * FROM users_table WHERE email = ?`
             const [rows] = await dbConnection.query(sqlCheckData, email)
+            const dataRole = rows[0].role
 
             if (rows.length == 0) {
                 response.status(400).json({
@@ -44,16 +47,15 @@ function setupAuthHandler (router, dbConnection) {
             } 
 
             const token = jwtUtil.encode({
-                email: rows[0].email,
-                userID: rows[0].id,
-                role: rows[0].role
+                userID: rows[0].id
             })
 
             response.status(200).json({
                 "status": true,
                 "message": "Login successfully",
                 "result":{ accessToken: token
-                }
+                },
+                "role": dataRole
             })
 
             
@@ -78,11 +80,15 @@ function setupAuthHandler (router, dbConnection) {
                     message: "Token tidak ditemukan dalam header Authorization"
                 });
             }
-    
+            const getId = request.user.userID
+            const sqlGetData = "SELECT * FROM users_table WHERE id = ?"
+            const [rows] = await dbConnection.query(sqlGetData, getId)
+            const dataRole = rows[0].role
+
             // Ambil token dari header Authorization
             const token = request.headers.authorization.split(" ")[1];
     
-
+            addInvalidToken(token)
             // Buat token refresh baru
             const newRefreshToken = jwtUtil.encode(request.user);
     
@@ -90,7 +96,8 @@ function setupAuthHandler (router, dbConnection) {
             response.json({
                 status: true,
                 message: "Token refresh berhasil diperbaharui",
-                refreshToken: newRefreshToken
+                refreshToken: newRefreshToken,
+                role: dataRole
             });
     
         } catch (error) {
@@ -147,7 +154,34 @@ function setupAuthHandler (router, dbConnection) {
     })
 
     // Logout
-    router.post('/logout', verifyJWTMiddleware(jwtUtil), (request, response) => {
+    router.post('/logout', verifyJWTMiddleware(jwtUtil), async(request, response) => {
+        const data = [
+            request.body.email,
+            request.body.password,
+            request.user.userID
+        ]
+        
+        const sqlGetData = "SELECT * FROM users_table WHERE id = ?"
+        const [rows] = await dbConnection.query(sqlGetData, data[2])
+
+        const dataPassword = rows[0].password 
+        const dataEmail = rows[0].email 
+
+
+        if (dataEmail == data[0] && hashFunction.compare(data[1], dataPassword)) {
+            const token = request.headers.authorization.split(" ")[1];
+            addInvalidToken(token)
+            response.json({
+                "status": true,
+                "message": "Logged out successfuly"
+            })
+
+        }else {
+            response.status(400).json({
+                "status": false,
+                "message": "Invalid data"
+            })
+        }
 
     })
 

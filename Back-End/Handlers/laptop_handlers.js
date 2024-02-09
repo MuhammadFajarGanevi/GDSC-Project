@@ -22,7 +22,6 @@ function setupLaptopHandler (router, dbConnection) {
             ]
             let value = []
             let sql
-            console.log(data)
 
             if (data[0]) { 
                 sql = "SELECT * FROM laptop_table WHERE id = ?"
@@ -68,7 +67,14 @@ function setupLaptopHandler (router, dbConnection) {
     })
 
     router.put('/', verifyJWTMiddleware(jwtUtil), async(request, response) => {
-        if ( request.user.role != "admin") {
+        const getId = request.user.userID
+        
+        const sqlGetData = "SELECT * FROM users_table WHERE id = ?"
+        const [rows] = await dbConnection.query(sqlGetData, getId)
+
+        const dataRole = rows[0].role 
+
+        if ( dataRole != "admin") {
             response.status(403).json({
                 "status": false,
                 "message": "doesnt have access",

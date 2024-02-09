@@ -65,7 +65,14 @@ function setupUserHandler(router, dbConnection) {
     // Mengambil data User
     router.get('/', verifyJWTMiddleware(jwtUtil),  async (request, response) => {
 
-        if ( request.user.role != "admin") {
+        const getId = request.user.userID
+        
+        const sqlGetData = "SELECT * FROM users_table WHERE id = ?"
+        const [rows] = await dbConnection.query(sqlGetData, getid)
+
+        const dataRole = rows[0].role 
+
+        if ( dataRole != "admin") {
             response.status(403).json({
                 "status": false,
                 "message": "doesnt have access",
@@ -132,10 +139,17 @@ function setupUserHandler(router, dbConnection) {
             request.body.userId,
             request.body.name,
             request.body.alamat,
-            request.body.no_telp
+            request.body.no_telp,
+            request.user.userID
           ] 
+        
+        const sqlGetData = "SELECT * FROM users_table WHERE id = ?"
+        const [rows] = await dbConnection.query(sqlGetData,data[4])
 
-        if ( request.user.userID == data[0] || request.user.role == "admin") {
+        const dataRole = rows[0].role
+        const dataId = rows[0].id 
+
+        if ( dataId == data[0] || dataRole == "admin") {
      
             try {
                 const sqlCekData = "SELECT * FROM users_table WHERE id = ?"
@@ -184,7 +198,14 @@ function setupUserHandler(router, dbConnection) {
     // Menghapus data User
     router.delete('/', verifyJWTMiddleware(jwtUtil), async(request, response) => {
 
-        if ( request.user.role != "admin") {
+        const getId = request.user.userID
+        
+        const sqlGetData = "SELECT * FROM users_table WHERE id = ?"
+        const [rows] = await dbConnection.query(sqlGetData, getid)
+
+        const dataRole = rows[0].role 
+
+        if ( dataRole != "admin") {
             response.status(403).json({
                 "status": false,
                 "message": "doesnt have access",

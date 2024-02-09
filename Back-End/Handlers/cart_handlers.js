@@ -17,10 +17,11 @@ function setupCartHandler (router, dbConnection) {
     // Mengambil Cart
     router.get('/', verifyJWTMiddleware(jwtUtil), async(request, response) => {
         try {
+            const getId = request.user.userID
             const data = request.body.user_id
             let priceAccumulation = 0
 
-            if (request.user.userID != data ){
+            if (getId != data ){
                 response.status(403).json({
                     "status": false,
                     "message": "doesnt have access",
@@ -63,8 +64,9 @@ function setupCartHandler (router, dbConnection) {
                 request.body.id_laptop,
                 request.body.quantity
             ];
-            
-            if (request.user.userID != data[0]) {
+            const getId = request.user.userID
+        
+            if (getId != data[0]) {
                 response.status(403).json({
                     "status": false,
                     "message": "doesnt have access",
@@ -118,7 +120,7 @@ function setupCartHandler (router, dbConnection) {
             request.body.cart_id,
             request.body.quantity
             ];
-
+            const getId = request.user.userID
 
             const sqlCheck = "SELECT * FROM cart_table WHERE id = ?";
             const [rows] = await dbConnection.query(sqlCheck, data[0]);
@@ -128,7 +130,7 @@ function setupCartHandler (router, dbConnection) {
                 const userIdCheck = rows[0]
 
             
-                if (request.user.userID != userIdCheck.user_id){
+                if (getId != userIdCheck.user_id){
                     response.status(403).json({
                         "status": false,
                         "message": "doesnt have access",
@@ -165,6 +167,7 @@ function setupCartHandler (router, dbConnection) {
             const data =[
                 request.body.cart_id
             ]
+            const getId = request.user.userID
 
             const sqlCheck = "SELECT * FROM cart_table WHERE id = ?"
             const [rows] = await dbConnection.query(sqlCheck, data[0])
@@ -172,7 +175,7 @@ function setupCartHandler (router, dbConnection) {
                 const userIdCheck = rows[0]
 
             
-                if (request.user.userID != userIdCheck.user_id){
+                if (getId != userIdCheck.user_id){
                     response.status(403).json({
                         "status": false,
                         "message": "doesnt have access",
