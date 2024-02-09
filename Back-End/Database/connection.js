@@ -5,7 +5,7 @@ async function setupConnection() {
     const connection = await mysql.createConnection({
       host: "localhost",
       user: "root",
-      password: "tesdoang", // Ganti 'password_here' dengan kata sandi sebenarnya
+      password: "", // Ganti 'password_here' dengan kata sandi sebenarnya
       database: "laptop_store",
     });
     console.log("Connection Success");

@@ -1,9 +1,12 @@
 const mysql = require('mysql2')
+const jwt = require('jsonwebtoken')
+
 const { Router } = require('express')
 
 const { HashFunction } = require('../Utility/hash.js')
 const { JWTUtil } = require('../Utility/jwt.js')
 const { verifyJWTMiddleware } = require('../Middleware/verifyJWTToken.js')
+const { loginValidator } = require('../Middleware/loginValidator.js')
 
 /**
  * @param {Router} router 
@@ -15,7 +18,7 @@ function setupAuthHandler (router, dbConnection) {
     const jwtUtil = new JWTUtil()
 
      // Method Login Account
-     router.post ('/login', async (request, response) => {
+     router.post ('/login', loginValidator, async (request, response) => {
         try {
             const email = request.body.email
             const password = request.body.password
@@ -63,6 +66,84 @@ function setupAuthHandler (router, dbConnection) {
                 "result": null
             })
         }
+    })
+
+    // Refresh Token
+    router.get('/refresh-token', verifyJWTMiddleware(jwtUtil), async (request, response) => {
+        try {
+            // Periksa apakah token ada dalam header Authorization
+            if (!request.headers.authorization) {
+                return response.status(401).json({
+                    status: false,
+                    message: "Token tidak ditemukan dalam header Authorization"
+                });
+            }
+    
+            // Ambil token dari header Authorization
+            const token = request.headers.authorization.split(" ")[1];
+    
+
+            // Buat token refresh baru
+            const newRefreshToken = jwtUtil.encode(request.user);
+    
+            // Kirim token refresh baru sebagai respons
+            response.json({
+                status: true,
+                message: "Token refresh berhasil diperbaharui",
+                refreshToken: newRefreshToken
+            });
+    
+        } catch (error) {
+            console.error(error);
+            response.status(500).json({
+                status: false,
+                message: "internal server error",
+                data: error
+            });
+        }
+    });
+    
+
+    // Reset Password
+    router.post('/reset-password', verifyJWTMiddleware(jwtUtil), async(request, response) => {
+        const data = [
+            request.body.oldPassword,
+            request.body.newPassword,
+            request.body.confirmPassword,
+            request.user.userID
+        ]
+        
+         const sqlCheck = "SELECT password FROM users_table WHERE id = ?"
+         const [row] = await dbConnection.query(sqlCheck, data[3])
+         
+         const oldPassword = row[0].password
+
+         if ( !(hashFunction.compare(data[0], oldPassword)) ) {
+            response.status(400).json({
+                "status": false,
+                "message": "Your old password is incorrect"
+            }) 
+
+            return
+         }
+
+         if (!(data[1] == data[2] && data[1])) {
+            response.status(400).json({
+                "status": false,
+                "message": "Your new password is empty or Your password Confirmation is incorrect"
+            }) 
+
+            return
+         }
+
+         const sqlUpdatePassword = "UPDATE users_table SET password = ? WHERE id = ?"
+         const value = [hashFunction.hash(data[1]), data[3]]
+         const [result] = await dbConnection.query(sqlUpdatePassword, value)
+         
+         response.json({
+            "status": true,
+            "message": "password reset successfully"
+         })
     })
 
     return router

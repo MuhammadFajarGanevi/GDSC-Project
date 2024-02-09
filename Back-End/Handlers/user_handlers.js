@@ -35,7 +35,6 @@ function setupUserHandler(router, dbConnection) {
                 // Iterasi melalui setiap baris untuk memeriksa password
                 const isPasswordMatch = rows.some(row => hashFunction.compare(data[2], row.password))
     
-                if (!isPasswordMatch) {
                     const sql = "INSERT INTO users_table (name, email, password, address, phone_number, role) VALUES (?,?,?,?,?, 'user')"
                     const value = [data[0], data[1], hashFunction.hash(data[2]), data[3], data[4]]
                     const [result, fields] = await dbConnection.query(sql, value)
@@ -43,15 +42,8 @@ function setupUserHandler(router, dbConnection) {
                     response.json({
                         "status": true,
                         "message": "Data added successfully",
-                        "result": result
                     })
-                } else {
-                    response.status(400).json({
-                        "status": false,
-                        "message": "Password is already registered",
-                        "result": null
-                    })
-                }
+              
             } else {
                 response.status(400).json({
                     "status": false,
@@ -86,22 +78,33 @@ function setupUserHandler(router, dbConnection) {
             let data = []
             let sql
         
-            const searchName = request.body.name
+            const dataCek = [
+                request.body.name,
+                request.body.email]
         
-            if (searchName) {
-                sql = "SELECT * FROM users_table WHERE name LIKE ?"
-                data.push(`%${searchName}%`)
+            if (dataCek[1]) {
+                sql = "SELECT email, name, phone_number, address, role FROM users_table WHERE email = ?"
+                data.push(dataCek[1])
+            } else if (dataCek[0]){
+                sql = "SELECT email, name, phone_number, address, role FROM users_table WHERE name LIKE ?"
+                data.push(`%${dataCek[0]}%`)
             } else {
-                sql = "SELECT * FROM users_table"
+                response.status(400).json({
+                    "status": false,
+                    "message": "No request",
+                    "result": null
+                })
+                return 
             }
-        
+    
             const [row] = await dbConnection.query(sql, data)
-            if( row.length > 0){
+            if( row.length  > 0){
         
             response.json({
                 "status": true,
                 "message": "Data retrieved successfully",
-                "result": row
+                "result": row,
+                "amount of data": row.length
             })
             }
             else {
@@ -152,7 +155,7 @@ function setupUserHandler(router, dbConnection) {
                 } else {
                     response.status(400).json({
                         "status": false,
-                        "message": "Data not founded",
+                        "message": "Data not found",
                         "result": null
                     })
                 }
@@ -220,7 +223,7 @@ function setupUserHandler(router, dbConnection) {
             response.status(500).json({
                 "status": false,
                 "message": "internal server error",
-                "result": null
+                "result": error
             })
         }
     })
