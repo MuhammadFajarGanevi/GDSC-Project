@@ -146,6 +146,11 @@ function setupAuthHandler (router, dbConnection) {
          })
     })
 
+    // Logout
+    router.post('/logout', verifyJWTMiddleware(jwtUtil), (request, response) => {
+
+    })
+
     return router
  }
 
