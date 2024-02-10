@@ -4,7 +4,7 @@ export function renderDashboard() {
     <link rel="stylesheet" href="style/dashboard.css" />
 
     <div class="container">
-      <div class="card" style="height: 150px">
+      <div class="card">
         <img
           alt="latar"
           id="latar"

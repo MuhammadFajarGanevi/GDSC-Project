@@ -34,15 +34,15 @@ export function renderLogin() {
         </div>
         <form id="submitForm">
           <div class="mb-3">
-            <label>Email</label>
-            <div>
-              <input id="email" />
+            <div class="input-container">
+              <input type="text" required id="email" />
+              <label for="email">Email</label>
             </div>
           </div>
           <div class="mb-3">
-            <label>Password</label>
-            <div>
-              <input id="password" />
+            <div class="input-container">
+              <input type="text" required id="password" />
+              <label for="password">Password</label>
             </div>
           </div>
           <button class="mb-5 btn">Login</button>

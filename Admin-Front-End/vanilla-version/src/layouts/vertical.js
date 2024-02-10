@@ -22,11 +22,6 @@ const navbarItem = [
     to: "/penjualan",
     icon: lineChartIcon,
   },
-  {
-    nama: "Log out",
-    to: "/login",
-    icon: logOutIcon,
-  },
 ];
 
 const path = window.location.pathname;
@@ -56,6 +51,12 @@ export function renderVerical() {
             </li>`;
           })
           .join("")}
+        <li>
+          <a id="logoutButton">
+            <div class="icon">${logOutIcon}</div>
+            <p>Logout</p>
+          </a>
+        </li>
       </ul>
     </aside>
     <section>
@@ -71,4 +72,12 @@ export function renderVerical() {
     </section>
   `;
   document.getElementById("app").innerHTML = content;
+
+  setListener();
+}
+
+function setListener() {
+  document
+    .getElementById("logoutButton")
+    .addEventListener("submit", async () => {});
 }

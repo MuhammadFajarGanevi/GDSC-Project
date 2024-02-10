@@ -9,7 +9,7 @@ aside {
   display: flex;
   flex-grow: 240px;
   height: 100%;
-  width: 270px;
+  width: 260px;
   color: rgba(var(--shadow-r), var(--shadow-g), var(--shadow-b), 0.87);
   overflow: hidden;
   position: relative;
@@ -92,7 +92,8 @@ aside li p {
 section {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  /* align-items: start;
+  justify-content: center; */
   flex: 1;
 }
 
