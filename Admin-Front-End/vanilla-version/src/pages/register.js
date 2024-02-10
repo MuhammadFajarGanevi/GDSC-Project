@@ -1,7 +1,7 @@
 import AxiosAction from "../actions/AxiosAction";
 import Swal from "sweetalert2";
 
-function render() {
+export function renderRegister() {
   const content = /* HTML */ `
     <link rel="stylesheet" href="./src/style/login.css" />
 
@@ -19,7 +19,7 @@ function render() {
     <div class="flex-d-col card">
       <div class="row mb-5">
         <div class="col-5 d-flex jc-right">
-          <img id="logo" class="mr-3" src="logo.png" />
+          <img class="mr-3" height="60" src="logo.png" />
         </div>
         <div class="col-7 d-flex jc-left a-center">
           <h3>LAPTOPERS</h3>
@@ -80,10 +80,6 @@ function render() {
 function setListener() {
   document.getElementById("submitButton").addEventListener("click", register);
 }
-
-render();
-
-// Script
 
 async function register() {
   try {

@@ -1,9 +1,11 @@
 #app {
+  margin: 0;
   display: flex;
   flex-direction: row;
 }
 
 aside {
+  margin: 0;
   display: flex;
   flex-grow: 240px;
   height: 100%;
@@ -17,6 +19,7 @@ aside ul {
   padding-bottom: 8px;
   margin: 0;
   list-style: none;
+  width: 100%;
 }
 
 aside li {
@@ -25,50 +28,68 @@ aside li {
   align-items: center;
   text-decoration: none;
   width: 100%;
-  box-sizing: border-box;
   text-align: left;
   margin-top: 0.375rem;
-  padding-left: 0 !important;
-  /* font-family: Inter, sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI",
-    Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji",
-    "Segoe UI Emoji", "Segoe UI Symbol";
-  font-weight: 400;
-  font-size: 1rem;
-  line-height: 1.5;
-  letter-spacing: 0.15px;
-  color: rgba(var(--shadow-r), var(--shadow-g), var(--shadow-b), 0.87); */
+  /* font-family: Inter, sans-serif; */
+  /* font-weight: 400; */
+  /* font-size: 1rem; */
+  /* line-height: 1.5; */
+  /* letter-spacing: 0.15px; */
 }
 
 aside li a {
   text-decoration: none;
   min-width: 0;
-  box-sizing: border-box;
   text-align: left;
-  color: rgba(var(--shadow-r), var(--shadow-g), var(--shadow-b), 0.87);
   outline: 0;
   user-select: none;
   width: 100%;
   border-top-right-radius: 100px;
   border-bottom-right-radius: 100px;
-  padding: 0.5625rem 0.875rem;
   display: flex;
   justify-content: flex-start;
   flex-grow: 1;
+  padding: 0.5625rem 0.875rem;
+}
+
+aside li a:hover {
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  background-color: rgba(58, 53, 65, 0.04);
+}
+aside li .active {
+  box-shadow: 0px 4px 8px -4px rgba(58, 53, 65, 0.42);
+  background-image: linear-gradient(98deg, #c6a7fe, #9155fd 94%);
+}
+
+aside .active * {
+  color: #fff;
+  fill: #fff;
 }
 
 aside li .icon {
   flex-shrink: 0;
   display: inline-flex;
-  margin-right: 0.625rem;
-  box-sizing: inherit;
+  margin-inline: 0.625rem;
 }
 
-aside .icon * {
+aside .icon svg {
   width: 1em;
   height: 1em;
+  font-size: 1.25rem;
 }
 
 aside li p {
+  margin: 0;
+  font-family: Inter, sans-serif;
+  font-weight: 400;
+  font-size: 1rem;
+  line-height: 1.5;
+  letter-spacing: 0.15px;
+  color: rgba(var(--shadow-r), var(--shadow-g), var(--shadow-b), 0.87);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 section {
@@ -81,5 +102,4 @@ nav * {
   top: 0;
   left: 0;
   width: 100%;
-  color: rgba(var(--shadow-r), var(--shadow-g), var(--shadow-b), 0.87);
 }

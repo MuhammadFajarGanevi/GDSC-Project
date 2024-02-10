@@ -6,10 +6,6 @@ input {
   height: 100vh;
 }
 
-#logo {
-  height: 60px;
-}
-
 a {
   color: var(--primary);
   text-decoration: none;

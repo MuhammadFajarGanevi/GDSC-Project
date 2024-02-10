@@ -1,6 +1,7 @@
 import { routes } from "./src/navigation/routes.js";
 import "./style.css";
 import "./color.css";
+import { roleValidated } from "./src/actions/AuthorizationAction.js";
 
 async function renderPage(path) {
   // Ambil data rute yang sesuai
@@ -11,24 +12,13 @@ async function renderPage(path) {
     window.location.href = "404.html";
   }
 
-  // Ambil konten layout
-  const layoutResponse = await fetch(`./src/layouts/${route.layout}`);
-  const layoutContent = await layoutResponse.text();
+  roleValidated(route.role);
 
-  // Render layout
-  const scriptLayout = document.createElement("script");
-  scriptLayout.textContent = layoutContent;
-  document.head.appendChild(scriptLayout);
+  // Ambil konten layout
+  route.layout();
 
   // Ambil konten halaman
-  const pageResponse = await fetch(`./src/pages/${route.script}`);
-  const pageContent = await pageResponse.text();
-
-  // Render konten halaman
-  const scriptContent = document.createElement("script");
-  scriptContent.textContent = pageContent;
-  scriptContent.type = "module";
-  document.head.appendChild(scriptContent);
+  route.page();
 }
 
 async function navigate() {

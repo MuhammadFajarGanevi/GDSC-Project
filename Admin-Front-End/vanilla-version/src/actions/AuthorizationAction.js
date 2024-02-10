@@ -1,33 +1,26 @@
 import AxiosAction from "./AxiosAction";
 
-export function roleChecking(role) {
-  if (!roleValidated(role)) {
-    localStorage.clear();
-
-    window.location.href = "401.html";
-  }
-}
-
-async function roleValidated(role) {
-  if (role == "guest") return true;
-
+export async function roleValidated(role) {
   try {
     const jwtToken = localStorage.getItem("jwtToken");
 
-    if (!jwtToken) return false;
+    const response = await AxiosAction.get("/auth/refresh-token", {
+      headers: { Authorization: jwtToken },
+    });
 
-    const response = AxiosAction.post(
-      "/auth/refresh",
-      {},
-      {
-        headers: { Authorization: jwtToken },
-      }
-    );
+    const user = response.data;
 
-    user = response.data;
+    console.log(user);
 
-    return user.role == role;
+    // if (user.role != role) {
+    //   localStorage.clear();
+    //   window.location.href = "401.html";
+    // }
   } catch (error) {
-    return false;
+    console.log(error);
+    // if (role != "guest") {
+    //   localStorage.clear();
+    //   window.location.href = "401.html";
+    // }
   }
 }
