@@ -37,7 +37,7 @@ async function navigate() {
 
   setTimeout(function () {
     document.getElementById("loaderContainer").remove();
-  }, 100);
+  }, 50);
 }
 
 window.addEventListener("popstate", navigate);

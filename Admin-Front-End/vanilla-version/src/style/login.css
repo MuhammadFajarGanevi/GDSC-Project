@@ -10,6 +10,12 @@ input {
   height: 60px;
 }
 
+a {
+  color: var(--primary);
+  text-decoration: none;
+  font-size: 0.875rem;
+}
+
 button {
   width: 100%;
 }
