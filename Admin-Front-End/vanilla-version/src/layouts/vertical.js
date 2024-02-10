@@ -60,7 +60,15 @@ export function renderVerical() {
     </aside>
     <section>
       <nav>
-        <p>This is the navbar</p>
+        <div class="container">
+          <div>
+            <div class="burger"></div>
+            <div class="search">
+              <input />
+            </div>
+          </div>
+          <div></div>
+        </div>
       </nav>
       <main id="content"></main>
     </section>
