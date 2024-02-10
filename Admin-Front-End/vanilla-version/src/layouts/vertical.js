@@ -33,7 +33,7 @@ const path = window.location.pathname;
 
 export function renderVerical() {
   const content = /* HTML */ `
-    <link rel="stylesheet" href="./src/style/layout-vertical.css" />
+    <link rel="stylesheet" href="style/layout-vertical.css" />
     <aside class="col">
       <div class="flex-d-col mt-4">
         <div class="row">

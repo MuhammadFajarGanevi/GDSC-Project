@@ -3,7 +3,7 @@ import Swal from "sweetalert2";
 
 export function renderRegister() {
   const content = /* HTML */ `
-    <link rel="stylesheet" href="./src/style/login.css" />
+    <link rel="stylesheet" href="style/login.css" />
 
     <img alt="tree" id="tanaman-kanan" src="/images/pages/auth-v1-tree-2.png" />
 
@@ -16,57 +16,59 @@ export function renderRegister() {
       class="css-84vgca"
     />
 
-    <div class="flex-d-col card">
-      <div class="row mb-5">
-        <div class="col-5 d-flex jc-right">
-          <img class="mr-3" height="60" src="logo.png" />
+    <div class="container">
+      <div class="flex-d-col card">
+        <div class="row mb-5">
+          <div class="col-5 d-flex jc-right">
+            <img class="mr-3" height="60" src="logo.png" />
+          </div>
+          <div class="col-7 d-flex jc-left a-center">
+            <h3>LAPTOPERS</h3>
+          </div>
         </div>
-        <div class="col-7 d-flex jc-left a-center">
-          <h3>LAPTOPERS</h3>
-        </div>
-      </div>
-      <div>
-        <h4 class="mb-1">Registrasi</h4>
-        <p class="mb-3">Daftar untuk akses berbagai fitur tambahan</p>
-      </div>
-      <div class="mb-3">
-        <label>Nama Lengkap</label>
         <div>
-          <input id="name" />
+          <h4 class="mb-1">Registrasi</h4>
+          <p class="mb-3">Daftar untuk akses berbagai fitur tambahan</p>
         </div>
-      </div>
-      <div class="mb-3">
-        <label>Email</label>
-        <div>
-          <input id="email" />
+        <div class="mb-3">
+          <label>Nama Lengkap</label>
+          <div>
+            <input id="name" />
+          </div>
         </div>
-      </div>
-      <div class="mb-3">
-        <label>Password</label>
-        <div>
-          <input id="password" />
+        <div class="mb-3">
+          <label>Email</label>
+          <div>
+            <input id="email" />
+          </div>
         </div>
-      </div>
-      <div class="mb-3">
-        <label>Alamat</label>
-        <div>
-          <input id="alamat" />
+        <div class="mb-3">
+          <label>Password</label>
+          <div>
+            <input id="password" />
+          </div>
         </div>
-      </div>
-      <div class="mb-3">
-        <label>Nomor Telepon</label>
-        <div>
-          <input id="no_telp" />
+        <div class="mb-3">
+          <label>Alamat</label>
+          <div>
+            <input id="alamat" />
+          </div>
         </div>
-      </div>
-      <button class="mb-5" id="submitButton">submit</button>
-      <div class="row ml-1">
-        <div class="mr-2">
-          <a href="/login">Sudah punya akun</a>
+        <div class="mb-3">
+          <label>Nomor Telepon</label>
+          <div>
+            <input id="no_telp" />
+          </div>
         </div>
-        |
-        <div class="ml-2">
-          <a href="/">Lupa Password</a>
+        <button class="mb-5" id="submitButton">submit</button>
+        <div class="row ml-1">
+          <div class="mr-2">
+            <a href="/login">Sudah punya akun</a>
+          </div>
+          |
+          <div class="ml-2">
+            <a href="/">Lupa Password</a>
+          </div>
         </div>
       </div>
     </div>

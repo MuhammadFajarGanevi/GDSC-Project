@@ -3,7 +3,7 @@ import Swal from "sweetalert2";
 
 export function renderLogin() {
   const content = /* HTML */ `
-    <link rel="stylesheet" href="./src/style/login.css" />
+    <link rel="stylesheet" href="style/login.css" />
 
     <img alt="tree" id="tanaman-kanan" src="/images/pages/auth-v1-tree-2.png" />
 
@@ -16,41 +16,45 @@ export function renderLogin() {
       class="css-84vgca"
     />
 
-    <div class="flex-d-col card">
-      <div class="row mb-5">
-        <div class="col-5 d-flex jc-right">
-          <img class="mr-3" height="60" src="logo.png" />
-        </div>
-        <div class="col-7 d-flex jc-left a-center">
-          <h3>LAPTOPERS</h3>
-        </div>
-      </div>
-      <div>
-        <h4 class="mb-1">Login</h4>
-        <p class="mb-3">Silakan login untuk melakukan pembelian di Laptopers</p>
-      </div>
-      <form id="submitForm">
-        <div class="mb-3">
-          <label>Email</label>
-          <div>
-            <input id="email" />
+    <div class="container">
+      <div class="flex-d-col card">
+        <div class="row mb-5">
+          <div class="col-5 d-flex jc-right">
+            <img class="mr-3" height="60" src="logo.png" />
+          </div>
+          <div class="col-7 d-flex jc-left a-center">
+            <h3>LAPTOPERS</h3>
           </div>
         </div>
-        <div class="mb-3">
-          <label>Password</label>
-          <div>
-            <input id="password" />
+        <div>
+          <h4 class="mb-1">Login</h4>
+          <p class="mb-3">
+            Silakan login untuk melakukan pembelian di Laptopers
+          </p>
+        </div>
+        <form id="submitForm">
+          <div class="mb-3">
+            <label>Email</label>
+            <div>
+              <input id="email" />
+            </div>
           </div>
-        </div>
-        <button class="mb-5">Login</button>
-      </form>
-      <div class="row ml-1">
-        <div class="mr-2">
-          <a href="/register">Buat akun baru</a>
-        </div>
-        |
-        <div class="ml-2">
-          <a href="/">Lupa Password</a>
+          <div class="mb-3">
+            <label>Password</label>
+            <div>
+              <input id="password" />
+            </div>
+          </div>
+          <button class="mb-5">Login</button>
+        </form>
+        <div class="row ml-1">
+          <div class="mr-2">
+            <a href="/register">Buat akun baru</a>
+          </div>
+          |
+          <div class="ml-2">
+            <a href="/">Lupa Password</a>
+          </div>
         </div>
       </div>
     </div>
