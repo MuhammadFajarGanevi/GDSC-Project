@@ -61,13 +61,10 @@ export function renderVerical() {
     <section>
       <nav>
         <div class="container">
-          <div>
+          <div class="d-flex jc-left">
             <div class="burger"></div>
-            <div class="search">
-              <input />
-            </div>
           </div>
-          <div></div>
+          <div class="d-flex">user profile</div>
         </div>
       </nav>
       <main id="content"></main>

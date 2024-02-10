@@ -45,7 +45,7 @@ export function renderLogin() {
               <input id="password" />
             </div>
           </div>
-          <button class="mb-5">Login</button>
+          <button class="mb-5 btn">Login</button>
         </form>
         <div class="row ml-1">
           <div class="mr-2">

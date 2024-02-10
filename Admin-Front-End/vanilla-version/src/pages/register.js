@@ -60,7 +60,7 @@ export function renderRegister() {
             <input id="no_telp" />
           </div>
         </div>
-        <button class="mb-5" id="submitButton">submit</button>
+        <button class="mb-5 btn" id="submitButton">submit</button>
         <div class="row ml-1">
           <div class="mr-2">
             <a href="/login">Sudah punya akun</a>

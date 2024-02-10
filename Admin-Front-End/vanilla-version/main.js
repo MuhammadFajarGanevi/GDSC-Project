@@ -1,6 +1,4 @@
 import { routes } from "./src/navigation/routes.js";
-import "./style.css";
-import "./color.css";
 import { roleValidated } from "./src/actions/AuthorizationAction.js";
 
 async function renderPage(path) {
@@ -9,7 +7,7 @@ async function renderPage(path) {
 
   // Pastikan rute ditemukan
   if (!route) {
-    window.location.href = "404.html";
+    window.location.href = "/404.html";
   }
 
   roleValidated(route.role);

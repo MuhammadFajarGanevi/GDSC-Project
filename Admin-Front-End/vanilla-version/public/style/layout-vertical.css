@@ -9,7 +9,7 @@ aside {
   display: flex;
   flex-grow: 240px;
   height: 100%;
-  width: 240px;
+  width: 270px;
   color: rgba(var(--shadow-r), var(--shadow-g), var(--shadow-b), 0.87);
   overflow: hidden;
   position: relative;
@@ -96,8 +96,29 @@ section {
   flex: 1;
 }
 
-nav * {
+nav {
   top: 0;
   left: 0;
   width: 100%;
+}
+
+nav .container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  flex-direction: row;
+}
+
+nav .container div:nth-child(1) {
+  order: 1;
+  display: inline;
+}
+
+nav .container div:nth-child(2) {
+  order: 2;
+  display: inline;
+}
+
+.user-profile {
 }

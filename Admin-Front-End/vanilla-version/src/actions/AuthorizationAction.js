@@ -5,22 +5,28 @@ export async function roleValidated(role) {
     const jwtToken = localStorage.getItem("jwtToken");
 
     const response = await AxiosAction.get("/auth/refresh-token", {
-      headers: { Authorization: jwtToken },
+      headers: {
+        Authorization: jwtToken,
+      },
     });
 
     const user = response.data;
 
     console.log(user);
 
-    // if (user.role != role) {
-    //   localStorage.clear();
-    //   window.location.href = "401.html";
-    // }
+    // await localStorage.setItem("jwtToken", `Bearer ${user.refreshToken}`);
+
+    if (user.role != role) {
+      if (user.role == "user") window.location.href = "/";
+      else if (user.role == "admin") window.location.href = "/";
+      else window.location.href = "/login";
+    }
   } catch (error) {
     console.log(error);
-    // if (role != "guest") {
-    //   localStorage.clear();
-    //   window.location.href = "401.html";
-    // }
+    if (role != "guest") {
+      console.log("terjadi kesalahan 401");
+      // localStorage.clear();
+      // window.location.href = "/401.html";
+    }
   }
 }
