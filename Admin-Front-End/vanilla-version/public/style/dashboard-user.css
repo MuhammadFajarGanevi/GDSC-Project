@@ -1,0 +1,21 @@
+#latar {
+  right: 0;
+  bottom: 0;
+  height: 120%;
+  position: absolute;
+}
+/* Responsive styles */
+@media (max-width: 768px) {
+  #latar {
+    position: relative;
+    max-width: 100%;
+    height: auto;
+  }
+}
+
+#monitor {
+  right: 36px;
+  bottom: 20px;
+  height: 98px;
+  position: absolute;
+}

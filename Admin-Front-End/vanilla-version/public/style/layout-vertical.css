@@ -15,6 +15,17 @@ aside {
   position: relative;
 }
 
+.sidebar-active {
+  width: 260px;
+}
+
+/* Responsive styles */
+@media (max-width: 1000px) {
+  aside {
+    width: 0;
+  }
+}
+
 aside ul {
   margin: 0;
   list-style: none;
@@ -107,19 +118,5 @@ nav .container {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 10px;
   flex-direction: row;
-}
-
-nav .container div:nth-child(1) {
-  order: 1;
-  display: inline;
-}
-
-nav .container div:nth-child(2) {
-  order: 2;
-  display: inline;
-}
-
-.user-profile {
 }

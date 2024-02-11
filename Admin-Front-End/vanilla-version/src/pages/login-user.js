@@ -83,7 +83,7 @@ function setListener() {
         );
         localStorage.setItem("email", data.email);
 
-        window.location.href = "/";
+        window.location.href = "/user";
       } catch (error) {
         Swal.fire({
           toast: true,

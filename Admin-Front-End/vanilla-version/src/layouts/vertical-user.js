@@ -1,15 +1,16 @@
 import {
   homeIcon,
   userIcon,
-  lineChartIcon,
+  cartIcon,
   logOutIcon,
+  menuIcon,
 } from "../icons/sideBarIcons";
-// Buat fungsi untuk merender konten halaman
+import AxiosAction from "../actions/AxiosAction";
 
 const navbarItem = [
   {
     nama: "Dashboard",
-    to: "/",
+    to: "/user",
     icon: homeIcon,
   },
   {
@@ -18,15 +19,15 @@ const navbarItem = [
     icon: userIcon,
   },
   {
-    nama: "Penjualan",
-    to: "/penjualan",
-    icon: lineChartIcon,
+    nama: "Pembelian",
+    to: "/pembelian",
+    icon: cartIcon,
   },
 ];
 
 const path = window.location.pathname;
 
-export function renderVerical() {
+export function renderVericalUser() {
   const content = /* HTML */ `
     <link rel="stylesheet" href="style/layout-vertical.css" />
     <aside class="col">
@@ -63,7 +64,7 @@ export function renderVerical() {
       <nav>
         <div class="container">
           <div class="d-flex jc-left">
-            <div class="burger"></div>
+            <div class="menu">${menuIcon}</div>
           </div>
           <div class="d-flex">user profile</div>
         </div>
@@ -79,5 +80,19 @@ export function renderVerical() {
 function setListener() {
   document
     .getElementById("logoutButton")
-    .addEventListener("submit", async () => {});
+    .addEventListener("click", async () => {
+      const jwtToken = localStorage.getItem("jwtToken");
+
+      const response = AxiosAction.post(
+        "/auth/logout",
+        {},
+        {
+          headers: {
+            Authorization: jwtToken,
+          },
+        }
+      );
+
+      console.log(response);
+    });
 }

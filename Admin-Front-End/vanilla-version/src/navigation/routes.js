@@ -1,26 +1,32 @@
-import { renderVerical } from "../layouts/vertical";
+import { renderVericalUser } from "../layouts/vertical-user";
 import { renderBlank } from "../layouts/blank";
-import { renderDashboard } from "../pages/dashboard";
-import { renderLogin } from "../pages/login";
+import { renderDashboardUser } from "../pages/dashboard-user";
+import { renderLogin } from "../pages/login-user";
 import { renderRegister } from "../pages/register";
 import { renderPenjualan } from "../pages/penjualan";
 import { renderAkun } from "../pages/akun";
+import { renderPembelian } from "../pages/pembelian";
 
 // vanilla router
 export const routes = {
-  "/": {
-    page: renderDashboard,
-    layout: renderVerical,
+  "/penjualan": {
+    page: renderPenjualan,
+    layout: renderVericalUser,
+    role: "admin",
+  },
+  "/user": {
+    page: renderDashboardUser,
+    layout: renderVericalUser,
+    role: "user",
+  },
+  "/pembelian": {
+    page: renderPembelian,
+    layout: renderVericalUser,
     role: "user",
   },
   "/akun": {
     page: renderAkun,
-    layout: renderVerical,
-    role: "user",
-  },
-  "/penjualan": {
-    page: renderPenjualan,
-    layout: renderVerical,
+    layout: renderVericalUser,
     role: "user",
   },
   "/login": {
