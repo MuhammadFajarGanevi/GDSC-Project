@@ -1,0 +1,13 @@
+#latar {
+  right: 0;
+  bottom: 0;
+  height: 100%;
+  position: absolute;
+}
+
+#monitor {
+  right: 36px;
+  bottom: 20px;
+  height: 98px;
+  position: absolute;
+}
