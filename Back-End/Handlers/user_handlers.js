@@ -62,8 +62,8 @@ function setupUserHandler(router, dbConnection) {
     })
     
    
-    // Mengambil data User
-    router.get('/', verifyJWTMiddleware(jwtUtil),  async (request, response) => {
+    // Mengambil data User Jika admin
+    router.get('/admin', verifyJWTMiddleware(jwtUtil),  async (request, response) => {
 
         const getId = request.user.userID
         
@@ -71,8 +71,55 @@ function setupUserHandler(router, dbConnection) {
         const [rows] = await dbConnection.query(sqlGetData, getId)
 
         const dataRole = rows[0].role 
+        
 
-        if ( dataRole != "admin") {
+        if ( dataRole == "admin") {
+
+            try {
+                let data = []
+                let sql
+            
+                const dataCek = [
+                    request.body.email,
+                    request.body.name
+                ]
+                if (dataCek[0]) {
+                    sql = "SELECT email, name, phone_number, address, role FROM users_table WHERE email = ?"
+                    data.push(dataCek[0])
+                } else if (dataCek[1]){
+                    sql = "SELECT email, name, phone_number, address, role FROM users_table WHERE name LIKE ?"
+                    data.push(`%${dataCek[1]}%`)
+                } else {
+                    sql = "SELECT email, name, phone_number, address, role FROM users_table"
+                }
+        
+                const [row] = await dbConnection.query(sql, data)
+                if( row.length  > 0){
+            
+                response.json({
+                    "status": true,
+                    "message": "Data retrieved successfully",
+                    "result": row,
+                    "amount of data": row.length
+                })
+                }
+                else {
+                    response.status(400).json({
+                        "status": false,
+                        "message": "Data not founded",
+                        "result": null
+                    })
+                }
+            } catch (error) {
+                console.log(error)
+                response.status(500).json({
+                    "status": false,
+                    "message": "Internal server error",
+                    "result": error
+                })
+            }
+          
+        }else {
             response.status(403).json({
                 "status": false,
                 "message": "doesnt have access",
@@ -81,57 +128,64 @@ function setupUserHandler(router, dbConnection) {
             return
         }
 
-        try {
-            let data = []
-            let sql
-        
-            const dataCek = [
-                request.body.email,
-                request.body.name
-            ]
-            if (dataCek[0]) {
-                sql = "SELECT email, name, phone_number, address, role FROM users_table WHERE email = ?"
-                data.push(dataCek[0])
-            } else if (dataCek[1]){
-                sql = "SELECT email, name, phone_number, address, role FROM users_table WHERE name LIKE ?"
-                data.push(`%${dataCek[1]}%`)
-            } else {
-                response.status(400).json({
-                    "status": false,
-                    "message": "No request",
-                    "result": null
-                })
-                return 
-            }
-    
-            const [row] = await dbConnection.query(sql, data)
-            if( row.length  > 0){
-        
-            response.json({
-                "status": true,
-                "message": "Data retrieved successfully",
-                "result": row,
-                "amount of data": row.length
-            })
-            }
-            else {
-                response.status(400).json({
-                    "status": false,
-                    "message": "Data not founded",
-                    "result": null
-                })
-            }
-        } catch (error) {
-            console.log(error)
-            response.status(500).json({
-                "status": false,
-                "message": "Internal server error",
-                "result": error
-            })
-        }
+       
         
     })
 
+     // Mengambil data User Jika User sendiri
+     router.get('/user', verifyJWTMiddleware(jwtUtil),  async (request, response) => {
+
+        const getId = request.user.userID
+        
+        const sqlGetData = "SELECT * FROM users_table WHERE id = ?"
+        const [rows] = await dbConnection.query(sqlGetData, getId)
+
+        const dataRole = rows[0].role 
+        const dataId = rows[0].id
+        
+        if ( dataRole == "user" && dataId == getId ) {
+            try {
+                const dataCek = [
+                    request.body.email,
+                    request.body.name
+                ]            
+                    
+                const sql = "SELECT email, name, phone_number, address, role FROM users_table WHERE id = ?"
+                const [row] = await dbConnection.query(sql, getId)
+                if( row.length  > 0){
+                response.json({
+                    "status": true,
+                    "message": "Data retrieved successfully",
+                    "result": row,
+                    "amount of data": row.length
+                })
+                }
+                else {
+                    response.status(400).json({
+                        "status": false,
+                        "message": "Data not founded",
+                        "result": null
+                    })
+                }
+            } catch (error) {
+                console.log(error)
+                response.status(500).json({
+                    "status": false,
+                    "message": "Internal server error",
+                    "result": error
+                })
+            }
+          
+        }else {
+            response.status(403).json({
+                "status": false,
+                "message": "doesnt have access",
+                "result": null
+            })
+            return
+        }
+  
+    })
    
     // Mengupdate data User
     router.put('/',  verifyJWTMiddleware(jwtUtil), async(request, response) => {
