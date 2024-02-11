@@ -68,7 +68,7 @@ function setupUserHandler(router, dbConnection) {
         const getId = request.user.userID
         
         const sqlGetData = "SELECT * FROM users_table WHERE id = ?"
-        const [rows] = await dbConnection.query(sqlGetData, getid)
+        const [rows] = await dbConnection.query(sqlGetData, getId)
 
         const dataRole = rows[0].role 
 
@@ -86,15 +86,15 @@ function setupUserHandler(router, dbConnection) {
             let sql
         
             const dataCek = [
-                request.body.name,
-                request.body.email]
-        
-            if (dataCek[1]) {
+                request.body.email,
+                request.body.name
+            ]
+            if (dataCek[0]) {
                 sql = "SELECT email, name, phone_number, address, role FROM users_table WHERE email = ?"
-                data.push(dataCek[1])
-            } else if (dataCek[0]){
+                data.push(dataCek[0])
+            } else if (dataCek[1]){
                 sql = "SELECT email, name, phone_number, address, role FROM users_table WHERE name LIKE ?"
-                data.push(`%${dataCek[0]}%`)
+                data.push(`%${dataCek[1]}%`)
             } else {
                 response.status(400).json({
                     "status": false,
@@ -118,7 +118,7 @@ function setupUserHandler(router, dbConnection) {
                 response.status(400).json({
                     "status": false,
                     "message": "Data not founded",
-                    "result": row
+                    "result": null
                 })
             }
         } catch (error) {
@@ -220,7 +220,6 @@ function setupUserHandler(router, dbConnection) {
             const sqlCekData = "SELECT * FROM users_table WHERE id = ?"
             const [rows] = await dbConnection.query(sqlCekData, userId)
 
-            console.log(rows)
 
             if (rows.length > 0) {
                 const sql = "DELETE FROM users_table WHERE id = ? "
