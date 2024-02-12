@@ -207,7 +207,7 @@ function setupUserHandler(router, dbConnection) {
      
             try {
                 const sqlCekData = "SELECT * FROM users_table WHERE id = ?"
-                const [rows] = await dbConnection.query(sqlCekData, userId)
+                const [rows] = await dbConnection.query(sqlCekData, data[0])
     
                 if (rows.length > 0) {
                     const sql = "UPDATE users_table SET name = ?, address = ?, phone_number = ? WHERE id = ? "
