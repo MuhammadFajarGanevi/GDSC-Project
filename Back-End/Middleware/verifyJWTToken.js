@@ -26,11 +26,19 @@ function verifyJWTMiddleware(jwtUtil) {
 
             next()
         } catch(error) {
+            if (error.name === 'TokenExpiredError') {
+                return response.status(401).json({
+                    status: false,
+                    message: "Token Expired",
+                    data: null
+                });
+            }else {
             response.status(500).json({
                 status: false,
                 message: error,
                 data: null
             })
+        }
         }
     }
 }
