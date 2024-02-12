@@ -28,6 +28,7 @@ function setupAuthHandler (router, dbConnection) {
             const sqlCheckData = `SELECT * FROM users_table WHERE email = ?`
             const [rows] = await dbConnection.query(sqlCheckData, email)
             const dataRole = rows[0].role
+            const dataId = rows[0].id
 
             if (rows.length == 0) {
                 response.status(400).json({
@@ -53,9 +54,12 @@ function setupAuthHandler (router, dbConnection) {
             response.status(200).json({
                 "status": true,
                 "message": "Login successfully",
-                "result":{ accessToken: token
+                "result":{
+                    accessToken: token
                 },
-                "role": dataRole
+
+                "role": dataRole,
+                "id": dataId
             })
 
             
@@ -79,12 +83,7 @@ function setupAuthHandler (router, dbConnection) {
                     status: false,
                     message: "Token tidak ditemukan dalam header Authorization"
                 });
-            }
-            const getId = request.user.userID
-            const sqlGetData = "SELECT * FROM users_table WHERE id = ?"
-            const [rows] = await dbConnection.query(sqlGetData, getId)
-            const dataRole = rows[0].role
-
+            }       
             // Ambil token dari header Authorization
             const token = request.headers.authorization.split(" ")[1];
     
@@ -97,7 +96,6 @@ function setupAuthHandler (router, dbConnection) {
                 status: true,
                 message: "Token refresh berhasil diperbaharui",
                 refreshToken: newRefreshToken,
-                role: dataRole
             });
     
         } catch (error) {
@@ -157,18 +155,17 @@ function setupAuthHandler (router, dbConnection) {
     router.post('/logout', verifyJWTMiddleware(jwtUtil), async(request, response) => {
         const data = [
             request.body.email,
-            request.body.password,
             request.user.userID
         ]
         
         const sqlGetData = "SELECT * FROM users_table WHERE id = ?"
-        const [rows] = await dbConnection.query(sqlGetData, data[2])
+        const [rows] = await dbConnection.query(sqlGetData, data[1])
 
         const dataPassword = rows[0].password 
         const dataEmail = rows[0].email 
 
 
-        if (dataEmail == data[0] && hashFunction.compare(data[1], dataPassword)) {
+        if (dataEmail == data[0] ) {
             const token = request.headers.authorization.split(" ")[1];
             addInvalidToken(token)
             response.json({
