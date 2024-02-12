@@ -4,7 +4,8 @@ import {
   cartIcon,
   logOutIcon,
   menuIcon,
-} from "../icons/sideBarIcons";
+  listIcon,
+} from "../icons/IconsRepository";
 import AxiosAction from "../actions/AxiosAction";
 
 const navbarItem = [
@@ -19,9 +20,14 @@ const navbarItem = [
     icon: userIcon,
   },
   {
+    nama: "Keranjang",
+    to: "/keranjang",
+    icon: cartIcon,
+  },
+  {
     nama: "Pembelian",
     to: "/pembelian",
-    icon: cartIcon,
+    icon: listIcon,
   },
 ];
 
@@ -43,14 +49,16 @@ export function renderVericalUser() {
       </div>
       <ul>
         ${navbarItem
-          .map((item) => {
-            return /* HTML */ `<li>
-              <a href="${item.to}" class="${path == item.to ? "active" : ""}">
-                <div class="icon">${item.icon}</div>
-                <p>${item.nama}</p>
-              </a>
-            </li>`;
-          })
+          .map(
+            (item) => /* HTML */ `
+              <li>
+                <a href="${item.to}" class="${path == item.to ? "active" : ""}">
+                  <div class="icon">${item.icon}</div>
+                  <p>${item.nama}</p>
+                </a>
+              </li>
+            `
+          )
           .join("")}
         <li>
           <a id="logoutButton">

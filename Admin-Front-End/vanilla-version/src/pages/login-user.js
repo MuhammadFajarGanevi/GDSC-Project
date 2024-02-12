@@ -19,15 +19,15 @@ export function renderLogin() {
     <div class="container">
       <div class="flex-d-col card">
         <div class="row mb-5">
-          <div class="col-5 d-flex jc-right">
-            <img class="mr-3" height="60" src="logo.png" />
+          <div class="col-5 d-flex jc-right" style="padding-right: 0">
+            <img class="mr-3" height="70" src="logo.png" />
           </div>
-          <div class="col-7 d-flex jc-left a-center">
+          <div class="col-7 d-flex jc-left a-center" style="padding-left: 0">
             <h3>LAPTOPERS</h3>
           </div>
         </div>
         <div>
-          <h4 class="mb-1">Login</h4>
+          <h4 class="mb-1">Login User</h4>
           <p class="mb-3">
             Silakan login untuk melakukan pembelian di Laptopers
           </p>
