@@ -255,7 +255,7 @@ function setupUserHandler(router, dbConnection) {
         const getId = request.user.userID
         
         const sqlGetData = "SELECT * FROM users_table WHERE id = ?"
-        const [rows] = await dbConnection.query(sqlGetData, getid)
+        const [rows] = await dbConnection.query(sqlGetData, getId)
 
         const dataRole = rows[0].role 
 

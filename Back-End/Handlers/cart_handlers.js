@@ -30,7 +30,7 @@ function setupCartHandler (router, dbConnection) {
                 return
             }
             
-            const sql = "SELECT c.id AS cart_id, c.laptop_id,l.name, c.quantity, (l.price * c.quantity) AS total_price, c.cart_status FROM cart_table c JOIN laptop_table l ON c.laptop_id = l.id WHERE c.user_id = ?"
+            const sql = "SELECT c.id AS cart_id, c.laptop_id,l.name, c.quantity, (l.price * c.quantity) AS total_price, c.status FROM cart_table c JOIN laptop_table l ON c.laptop_id = l.id WHERE c.user_id = ? AND c.status = 'pending'"
             const [rows] = await dbConnection.query(sql, data)
 
             // Menghitung total harga
@@ -64,51 +64,58 @@ function setupCartHandler (router, dbConnection) {
                 request.body.id_laptop,
                 request.body.quantity
             ];
-            const getId = request.user.userID
-        
+    
+            const getId = request.user.userID;
+    
+            // Memeriksa apakah pengguna yang sedang login memiliki akses
             if (getId != data[0]) {
-                response.status(403).json({
+                return response.status(403).json({
                     "status": false,
-                    "message": "doesnt have access",
+                    "message": "Tidak memiliki akses",
                     "result": null
-                })
-                return
+                });
             }
+    
             // Pengecekan keberadaan data dalam cart
-            const sqlCheck = "SELECT * FROM cart_table WHERE user_id = ? AND laptop_id = ? ";
+            const sqlCheck = "SELECT * FROM cart_table WHERE user_id = ? AND laptop_id = ? AND status = 'pending' ";
             const [rowsCheck] = await dbConnection.query(sqlCheck, [data[0], data[1]]);
     
             // Cek apakah data sudah ada
             const isDataExists = rowsCheck.length > 0;
+            console.log(isDataExists)
     
             if (isDataExists) {
-                // Jika data sudah ada, lakukan update
+                // Jika data sudah ada dan statusnya "pending", lakukan update
                 const sqlDataAlreadyExist = "UPDATE cart_table SET quantity = ? WHERE user_id = ? AND laptop_id = ?";
-                const result = await dbConnection.query(sqlDataAlreadyExist, [data[2], data[0], data[1]]);
+                const value = [data[2], data[0], data[1]]
+                await dbConnection.query(sqlDataAlreadyExist, value);
     
-                response.json({
+                return response.json({
                     "status": true,
-                    "message": "Cart updated successfully",
+                    "message": "Cart updated successfully"
                 });
             } else {
-                // Jika data belum ada, lakukan insert
-                const sqlInsert = "INSERT INTO cart_table (user_id, laptop_id, quantity) VALUES (?, ?, ?)";
-                const result = await dbConnection.query(sqlInsert, [data[0], data[1], data[2]]);
-    
-                response.json({
-                    "status": true,
-                    "message": "Cart added successfully",
-                });
+                  // Jika data belum ada, lakukan insert
+                  const sqlInsert = "INSERT INTO cart_table (user_id, laptop_id, quantity, status) VALUES (?, ?, ?, 'pending')";
+                  const result = await dbConnection.query(sqlInsert, [data[0], data[1], data[2]]);
+      
+                  response.json({
+                      "status": true,
+                      "message": "Cart added successfully",
+                  });
+              
             }
         } catch (error) {
-            response.status(500).json({
+            console.log(error);
+            return response.status(500).json({
                 "status": false,
-                "message": "Internal server error",
-                "message_2": "Kesalahan input data pada user_id, ataupun Laptop_id",
+                "message": "Kesalahan server internal",
+                "message_2": "Kesalahan input data pada user_id atau Laptop_id",
                 "result": error
             });
         }
     });
+    
     
   
     

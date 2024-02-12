@@ -4,8 +4,8 @@ const jwt = require('jsonwebtoken')
 const { Router } = require('express')
 
 const { HashFunction } = require('../Utility/hash.js')
+const { TokenValidation } = require('../Utility/invalidToken.js')
 const { JWTUtil } = require('../Utility/jwt.js')
-const { addInvalidToken, addValidToken } = require('../Utility/invalidToken.js')
 
 
 const { verifyJWTMiddleware } = require('../Middleware/verifyJWTToken.js')
@@ -52,7 +52,7 @@ function setupAuthHandler (router, dbConnection) {
                 userID: rows[0].id
             })
 
-            addValidToken(token)
+            TokenValidation.addValidToken(token)
 
             response.status(200).json({
                 "status": true,
@@ -90,11 +90,11 @@ function setupAuthHandler (router, dbConnection) {
             // Ambil token dari header Authorization
             const token = request.headers.authorization.split(" ")[1];
     
-            addInvalidToken(token)
+            TokenValidation.addInvalidToken(token)
             // Buat token refresh baru
             const newRefreshToken = jwtUtil.encode(request.user);
 
-            addValidToken(newRefreshToken)    
+            TokenValidation.addValidToken(newRefreshToken)    
             // Kirim token refresh baru sebagai respons
             response.json({
                 status: true,
@@ -171,7 +171,7 @@ function setupAuthHandler (router, dbConnection) {
 
         if (dataEmail == data[0] ) {
             const token = request.headers.authorization.split(" ")[1];
-            addInvalidToken(token)
+            TokenValidation.addInvalidToken(token)
             response.json({
                 "status": true,
                 "message": "Logged out successfuly"

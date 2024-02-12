@@ -21,20 +21,21 @@ function setupOrderHandler (router, dbConnection) {
                 request.body.userId
             ]
 
-            const sqlCheck = "SELECT id, laptop_id  FROM cart_table WHERE user_id = ? AND cart_status = 'pending'"
+            const sqlCheck = "SELECT id, laptop_id, quantity  FROM cart_table WHERE user_id = ? AND status = 'pending'"
             const [result] = await dbConnection.query(sqlCheck, data[0])
             let joinedResult
             let idArray = []
             let laptop_idArray = []
+            let quantityArray = []
 
             if (result.length > 0) {
                 result.forEach(row => {
                     idArray.push(row.id),
                     laptop_idArray.push(row.laptop_id)
+                    quantityArray.push(row.quantity)
                 });
                 
                 const sqlUpdateLaptop ="UPDATE laptop_table l INNER JOIN cart_table c ON l.id = c.laptop_id SET l.quantity = CASE WHEN (l.quantity - c.quantity) < 0 THEN l.quantity ELSE (l.quantity - c.quantity) END WHERE c.laptop_id IN (?) AND l.quantity >= c.quantity";
-                
                // Mulai transaksi
                 await dbConnection.beginTransaction();
 
@@ -54,15 +55,24 @@ function setupOrderHandler (router, dbConnection) {
                     return
                 }
                 
-                const sqlUpdateCart = "UPDATE cart_table SET cart_status ='ongoing' WHERE user_id = ? AND cart_status = 'pending'"
+                const sqlGetTotalPrice = "SELECT (l.price * c.quantity) AS price FROM cart_table c JOIN laptop_table l ON c.laptop_id = l.id WHERE c.user_id = ? AND c.status = 'pending'"
+                const [resultGetTotalPrice] = await dbConnection.query(sqlGetTotalPrice,data[0] )
+                let priceAccumulation = 0
+
+                resultGetTotalPrice.forEach(row2 => {
+                    priceAccumulation += row2.price
+                })
+                
+                const sqlUpdateCart = "UPDATE cart_table SET status ='ongoing' WHERE user_id = ? AND status = 'pending'"
                 const resultUpdateCart = await dbConnection.query(sqlUpdateCart, data[0])
                 
                 joinedResultCartId = idArray.join(',')
                 joinedResultLaptopId = laptop_idArray.join(',')
-
+                joinedResultQuantity  = quantityArray.join(',')
+                
                  const order_status = "ongoing"
-                 const sqlInsert = "INSERT INTO orders_table (user_id, cart_id, order_status, laptop_id) VALUES (?,?,?,?)"
-                 const values = [data[0],  joinedResultCartId, order_status, joinedResultLaptopId ]
+                 const sqlInsert = "INSERT INTO orders_table (user_id, cart_id, order_status, laptop_id, quantity, total_price) VALUES (?,?,?,?,?, ?)"
+                 const values = [data[0],  joinedResultCartId, order_status, joinedResultLaptopId, joinedResultQuantity, priceAccumulation ]
                  const resultInsert = await dbConnection.query(sqlInsert, values)
 
                  response.json({
@@ -73,9 +83,11 @@ function setupOrderHandler (router, dbConnection) {
                     "message": "All products successfully purchased",
                     "result" : {
                         "resultCart": joinedResultCartId,
-                        "resultLaptop": joinedResultLaptopId
+                        "resultLaptop": joinedResultLaptopId,
+                        "quantityPerLaptop": joinedResultQuantity
                     },
-                    "ammount of data": result.length
+                    "ammount of data": result.length,
+                    "totalPrice": priceAccumulation
                 })
 
             }else{
@@ -98,39 +110,67 @@ function setupOrderHandler (router, dbConnection) {
     })
 
     // Melihat Order
-    router.get('/', async(request, response) => {
-        const data = [
-            request.body.userId
-        ]
+    router.get('/', async (request, response) => {
+        const userId = request.body.userId; // Mendapatkan user_id dari permintaan
+        const orderId = request.body.orderId
+    
         try {
-            const sqlGetId = "SELECT cart_id, laptop_id FROM orders_table WHERE user_id = ?"
-            const [resultGetId] = await dbConnection.query(sqlGetId, data[0])
-            
-            let dataCartId = []
-            dataCartId.push( resultGetId[0].cart_id.split(','))
-            let dataLaptopId = []
-            dataLaptopId.push( resultGetId[0].laptop_id.split(','))
+            const sqlGetId = "SELECT cart_id, laptop_id, quantity, total_price FROM orders_table WHERE user_id = ? AND id = ?";
+            const value1 = [userId, orderId]
+            const [resultGetId] = await dbConnection.query(sqlGetId, value1);
+        
+            // Memisahkan string menjadi array dan mengonversi elemen menjadi tipe numerik
+            const dataCartId = resultGetId[0].cart_id.split(',').map(Number);
+            const dataLaptopId = resultGetId[0].laptop_id.split(',').map(Number);
+            const dataQuantity = resultGetId[0].quantity.split(',').map(Number);
+        
+            // Membuat array kosong untuk menampung data laptop
+            const laptopData = [];
+            const totalPrice = resultGetId[0].total_price 
 
-
-            const sql = "SELECT c.id AS cart_id, c.laptop_id, l.name, c.quantity, (l.price * c.quantity) AS total_price, c.cart_status FROM cart_table c JOIN laptop_table l ON c.laptop_id = l.id WHERE c.user_id = ? AND c.id IN (?)"
-            const [rows] = await dbConnection.query(sql, [data[0], dataCartId])
-
+        
+            // Loop melalui setiap elemen dalam dataLaptopId dan dataQuantity
+            for (let i = 0; i < dataLaptopId.length; i++) {
+                // Mengambil laptop_id dan quantity saat ini
+                const laptopId = dataLaptopId[i];
+                const quantity = dataQuantity[i];
+        
+                // Mengambil data nama laptop dan harga dari tabel laptop_table berdasarkan laptop_id
+                const sqlGetData = "SELECT name, price FROM laptop_table WHERE id = ?";
+                const [laptopResult] = await dbConnection.query(sqlGetData, laptopId);
+        
+                // Jika data laptop ditemukan, tambahkan ke array laptopData
+                if (laptopResult.length > 0) {
+                    const laptopName = laptopResult[0].name;
+                    const price = laptopResult[0].price;
+                    const totalPricePerItem = quantity * price; // Hitung total harga per item
+        
+                    laptopData.push({ laptopId, laptopName, quantity, price, totalPricePerItem });
+                }
+            }
+        
             response.json({
                 "status": true,
                 "message": "Data retrieved successfully",
-                "resultCart": rows,
-                // "resultLaptop": dataLaptopId
-            })    
+                "resultCart": dataCartId,
+                "resultLaptop": dataLaptopId,
+                "resultQuantity": dataQuantity,
+                "laptop": {
+                    laptopData},                 // Menambahkan data laptop ke respons
+                "priceAccumulation": totalPrice
+            });
         } catch (error) {
-            console.log(error)
+            console.log(error);
             response.status(500).json({
                 "status": false,
                 "message": "Internal server error",
                 "result": error
-            })
+            });
         }
-         
-    })
+        
+        
+    });
+    
 
     return router
  }
