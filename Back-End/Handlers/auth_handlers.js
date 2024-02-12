@@ -5,7 +5,8 @@ const { Router } = require('express')
 
 const { HashFunction } = require('../Utility/hash.js')
 const { JWTUtil } = require('../Utility/jwt.js')
-const { addInvalidToken } = require('../Utility/invalidToken.js')
+const { addInvalidToken, addValidToken } = require('../Utility/invalidToken.js')
+
 
 const { verifyJWTMiddleware } = require('../Middleware/verifyJWTToken.js')
 const { loginValidator } = require('../Middleware/loginValidator.js')
@@ -51,6 +52,8 @@ function setupAuthHandler (router, dbConnection) {
                 userID: rows[0].id
             })
 
+            addValidToken(token)
+
             response.status(200).json({
                 "status": true,
                 "message": "Login successfully",
@@ -90,7 +93,8 @@ function setupAuthHandler (router, dbConnection) {
             addInvalidToken(token)
             // Buat token refresh baru
             const newRefreshToken = jwtUtil.encode(request.user);
-    
+
+            addValidToken(newRefreshToken)    
             // Kirim token refresh baru sebagai respons
             response.json({
                 status: true,

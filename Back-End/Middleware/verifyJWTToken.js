@@ -1,4 +1,5 @@
-const { addInvalidToken } = require('../Utility/invalidToken.js')
+const { addInvalidToken, addValidToken  } = require('../Utility/invalidToken.js')
+
 
 function verifyJWTMiddleware(jwtUtil) {
     return function (request, response, next) {
@@ -14,13 +15,18 @@ function verifyJWTMiddleware(jwtUtil) {
 
             const token = request.headers.authorization.split(" ")[1]
 
-            if (global.invalidTokens && global.invalidTokens.some(tokenData => tokenData.token === token)) {
+            if (
+                (global.invalidTokens && global.invalidTokens.some(tokenData => tokenData.token === token)) ||
+                (!global.validTokens || !global.validTokens.some(validToken => validToken.token === token))
+            ) {
+                
                 return response.status(401).json({
                     status: false,
                     message: "Invalid Token",
                     data: null
                 });
             }
+            
 
             request.user = jwtUtil.decode(token).data
 
