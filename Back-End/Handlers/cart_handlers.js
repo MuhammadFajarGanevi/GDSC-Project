@@ -18,7 +18,7 @@ function setupCartHandler (router, dbConnection) {
     router.get('/', verifyJWTMiddleware(jwtUtil), async(request, response) => {
         try {
             const getId = request.user.userID
-            const data = request.body.user_id
+            const data = request.query.id
             let priceAccumulation = 0
 
             if (getId != data ){
@@ -30,7 +30,7 @@ function setupCartHandler (router, dbConnection) {
                 return
             }
             
-            const sql = "SELECT c.id AS cart_id,l.name, c.quantity, (l.price * c.quantity) AS total_price FROM cart_table c JOIN laptop_table l ON c.laptop_id = l.id WHERE c.user_id = ?"
+            const sql = "SELECT c.id AS cart_id, c.laptop_id,l.name, c.quantity, (l.price * c.quantity) AS total_price, c.cart_status FROM cart_table c JOIN laptop_table l ON c.laptop_id = l.id WHERE c.user_id = ?"
             const [rows] = await dbConnection.query(sql, data)
 
             // Menghitung total harga
