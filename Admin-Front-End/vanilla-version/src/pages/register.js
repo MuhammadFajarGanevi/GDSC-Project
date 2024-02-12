@@ -15,7 +15,6 @@ export function renderRegister() {
       src="/images/pages/auth-v1-mask-light.png"
       class="css-84vgca"
     />
-
     <div class="container">
       <div class="flex-d-col card">
         <div class="row mb-5">
@@ -31,36 +30,36 @@ export function renderRegister() {
           <p class="mb-3">Daftar untuk akses berbagai fitur tambahan</p>
         </div>
         <div class="mb-3">
-          <label>Nama Lengkap</label>
-          <div>
-            <input id="name" />
+          <div class="input-container">
+            <input type="text" id="name" />
+            <label for="name">Nama Lengkap</label>
           </div>
         </div>
         <div class="mb-3">
-          <label>Email</label>
-          <div>
-            <input id="email" />
+          <div class="input-container">
+            <input type="text" id="email" />
+            <label for="email">Email</label>
           </div>
         </div>
         <div class="mb-3">
-          <label>Password</label>
-          <div>
-            <input id="password" />
+          <div class="input-container">
+            <input type="password" id="password" />
+            <label for="password">Password</label>
           </div>
         </div>
         <div class="mb-3">
-          <label>Alamat</label>
-          <div>
-            <input id="alamat" />
+          <div class="input-container">
+            <input type="text" id="alamat" />
+            <label for="alamat">Alamat</label>
           </div>
         </div>
         <div class="mb-3">
-          <label>Nomor Telepon</label>
-          <div>
-            <input id="no_telp" />
+          <div class="input-container">
+            <input type="text" id="no_telp" />
+            <label for="no_telp">Nomor Telepon</label>
           </div>
         </div>
-        <button class="mb-5" id="submitButton">submit</button>
+        <button class="mb-5 btn" id="submitButton">submit</button>
         <div class="row ml-1">
           <div class="mr-2">
             <a href="/login">Sudah punya akun</a>
