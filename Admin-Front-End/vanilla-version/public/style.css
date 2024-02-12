@@ -228,8 +228,6 @@ p {
 /* General column classes */
 [class^="col-"] {
   min-height: 1px;
-  padding-right: 15px;
-  padding-left: 15px;
   flex-grow: 1;
   max-width: 100%;
 }
