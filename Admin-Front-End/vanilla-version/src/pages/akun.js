@@ -97,6 +97,10 @@ export async function renderAkun() {
       localStorage.clear();
       window.location.href = "/login";
     }
+    if (error.response.status == 500) {
+      localStorage.clear();
+      window.location.href = "/500.html";
+    }
   }
 }
 
@@ -165,7 +169,11 @@ function setListener() {
       } catch (error) {
         if (error.response.status == 401) {
           localStorage.clear();
-          window.location.href = "/login";
+          window.location.href = "/401.html";
+        }
+        if (error.response.status == 500) {
+          localStorage.clear();
+          window.location.href = "/500.html";
         }
       }
 
@@ -222,7 +230,11 @@ function setListener() {
         });
         if (error.response.status == 401) {
           localStorage.clear();
-          window.location.href = "/login";
+          window.location.href = "/401.html";
+        }
+        if (error.response.status == 500) {
+          localStorage.clear();
+          window.location.href = "/500.html";
         }
       }
 

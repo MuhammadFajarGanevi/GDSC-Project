@@ -123,7 +123,34 @@ button:active::after {
   pointer-events: none;
 }
 
-.bg-info {
+.cart-item {
+  display: flex;
+  align-items: center;
+}
+
+.btn-decrease,
+.btn-increase {
+  border: none;
+  padding: 0;
+  width: 2rem;
+  height: 2rem;
+  cursor: pointer;
+  border-radius: 50%;
+}
+
+.btn-close {
+  position: absolute;
+  width: 2rem;
+  height: 2rem;
+  padding: 0;
+  right: 1.25rem;
+}
+
+.bg-error {
+  background-color: var(--error);
+}
+
+.bg-secondary {
   background-color: var(--secondary);
 }
 
@@ -133,6 +160,12 @@ button:active::after {
   font-size: 1.5rem;
   padding: 8px;
   border-radius: 50%;
+}
+
+@keyframes expandLeft {
+  to {
+    left: 250px;
+  }
 }
 
 .menu:hover {
@@ -153,6 +186,10 @@ button:active::after {
 @media (max-width: 1000px) {
   .menu {
     display: flex;
+  }
+  .menu-active {
+    left: 0;
+    animation: expandLeft 0.5s ease forwards alternate;
   }
 }
 
@@ -213,6 +250,10 @@ p {
   line-height: 1.5;
   letter-spacing: 0.15px;
   color: rgba(58, 53, 65, 0.68);
+}
+
+.text-primary {
+  color: var(--primary);
 }
 
 .text-center {

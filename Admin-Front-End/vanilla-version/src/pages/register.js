@@ -31,31 +31,31 @@ export function renderRegister() {
         </div>
         <div class="mb-3">
           <div class="input-container">
-            <input type="text" id="name" />
+            <input required type="text" id="name" />
             <label for="name">Nama Lengkap</label>
           </div>
         </div>
         <div class="mb-3">
           <div class="input-container">
-            <input type="text" id="email" />
+            <input required type="text" id="email" />
             <label for="email">Email</label>
           </div>
         </div>
         <div class="mb-3">
           <div class="input-container">
-            <input type="password" id="password" />
+            <input required type="password" id="password" />
             <label for="password">Password</label>
           </div>
         </div>
         <div class="mb-3">
           <div class="input-container">
-            <input type="text" id="alamat" />
+            <input required type="text" id="alamat" />
             <label for="alamat">Alamat</label>
           </div>
         </div>
         <div class="mb-3">
           <div class="input-container">
-            <input type="text" id="no_telp" />
+            <input required type="text" id="no_telp" />
             <label for="no_telp">Nomor Telepon</label>
           </div>
         </div>
@@ -118,7 +118,7 @@ async function register() {
       timerProgressBar: true,
       timer: 2000,
       icon: "error",
-      title: "Email atau Password salah",
+      title: "Isi data dengan sesuai",
     });
   }
 }

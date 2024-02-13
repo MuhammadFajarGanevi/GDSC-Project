@@ -7,6 +7,7 @@ import {
   listIcon,
 } from "../icons/IconsRepository";
 import AxiosAction from "../actions/AxiosAction";
+import Swal from "sweetalert2";
 
 const navbarItem = [
   {
@@ -32,6 +33,7 @@ const navbarItem = [
 ];
 
 const path = window.location.pathname;
+const email = localStorage.getItem("email");
 
 export function renderVericalUser() {
   const content = /* HTML */ `
@@ -74,7 +76,7 @@ export function renderVericalUser() {
           <div class="d-flex jc-left">
             <div class="menu">${menuIcon}</div>
           </div>
-          <div class="d-flex">user profile</div>
+          <div class="d-flex">${email}</div>
         </div>
       </nav>
       <main id="content"></main>
@@ -86,22 +88,42 @@ export function renderVericalUser() {
 }
 
 function setListener() {
+  const sideBar = document.querySelector("aside");
+  const menuButton = document.querySelector(".menu");
+
   document
     .getElementById("logoutButton")
     .addEventListener("click", async () => {
-      const jwtToken = localStorage.getItem("jwtToken");
+      const ask = await Swal.fire({
+        title: "Ingin keluar dari akun ini?",
+        showConfirmButton: false,
+        showDenyButton: true,
+        showCancelButton: true,
+        denyButtonText: "Log Out",
+        denyButtonColor: "var(--error)",
+        cancelButtonColor:
+          "rgba(var(--shadow-r),var(--shadow-g),var(--shadow-b), 0.65)",
+      });
+      if (ask.isDenied) {
+        const jwtToken = localStorage.getItem("jwtToken");
 
-      const response = await AxiosAction.post(
-        "/auth/logout",
-        { email: localStorage.getItem("email") },
-        {
-          headers: {
-            Authorization: jwtToken,
-          },
-        }
-      );
+        const response = await AxiosAction.post(
+          "/auth/logout",
+          { email: email },
+          {
+            headers: {
+              Authorization: jwtToken,
+            },
+          }
+        );
 
-      localStorage.clear();
-      window.location.href = "/login";
+        localStorage.clear();
+        window.location.href = "/login";
+      }
     });
+
+  menuButton.addEventListener("click", async () => {
+    menuButton.classList.toggle("menu-active");
+    sideBar.classList.toggle("sidebar-active");
+  });
 }

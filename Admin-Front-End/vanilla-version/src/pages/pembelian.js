@@ -34,7 +34,9 @@ export function renderPembelian() {
               .join("")}
           </tbody>
         </table>
-        <p class="my-5 mr-5 text-right"><b>Harga Total</b> Rp 20.000.000.-</p>
+        <p class="my-5 mr-5 text-right">
+          <b>Harga Total</b> <font class="text-primary">Rp 20.000.000.-</font>
+        </p>
       </div>
     </div>
   `;
