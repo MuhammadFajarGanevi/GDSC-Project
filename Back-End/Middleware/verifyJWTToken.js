@@ -26,7 +26,6 @@ function verifyJWTMiddleware(jwtUtil) {
             }
             
             
-            console.log(global.validTokens)
             request.user = jwtUtil.decode(token).data
 
             next()

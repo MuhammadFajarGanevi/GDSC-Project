@@ -30,7 +30,7 @@ function setupCartHandler (router, dbConnection) {
                 return
             }
             
-            const sql = "SELECT c.id AS cart_id, c.laptop_id,l.name, c.quantity, (l.price * c.quantity) AS total_price, c.status FROM cart_table c JOIN laptop_table l ON c.laptop_id = l.id WHERE c.user_id = ? AND c.status = 'pending'"
+            const sql = "SELECT c.id AS cart_id, c.laptop_id,l.name, c.quantity, (l.price * c.quantity) AS total_price, c.status, l.quantity AS max_quantity FROM cart_table c JOIN laptop_table l ON c.laptop_id = l.id WHERE c.user_id = ? AND c.status = 'pending'"
             const [rows] = await dbConnection.query(sql, data)
 
             // Menghitung total harga
@@ -42,8 +42,8 @@ function setupCartHandler (router, dbConnection) {
                 "status": true,
                 "message": "Data ada",
                 "Laptop": rows,
-                "ammount of data": rows.length,
-                "price accumulation": priceAccumulation
+                "ammountOfData": rows.length,
+                "priceAccumulation": priceAccumulation
             })
 
         } catch (error) {
