@@ -127,12 +127,11 @@ function setupOrderHandler (router, dbConnection) {
     // Melihat Order
     router.get('/', verifyJWTMiddleware(jwtUtil) ,async (request, response) => {
         const userId = request.body.userId; // Mendapatkan user_id dari permintaan
-        const orderId = request.body.orderId
         const getId = request.user.userID
     
         try {
-            const sqlGetId = "SELECT cart_id, laptop_id, quantity, total_price FROM orders_table WHERE user_id = ? AND id = ?";
-            const value1 = [userId, orderId]
+            const sqlGetId = "SELECT cart_id, laptop_id, quantity, total_price FROM orders_table WHERE user_id = ?";
+            const value1 = [userId]
             const [resultGetId] = await dbConnection.query(sqlGetId, value1);
         
             // Memisahkan string menjadi array dan mengonversi elemen menjadi tipe numerik
@@ -150,29 +149,27 @@ function setupOrderHandler (router, dbConnection) {
                 // Mengambil laptop_id dan quantity saat ini
                 const laptopId = dataLaptopId[i];
                 const quantity = dataQuantity[i];
+                const cartId = dataCartId[i];
         
                 // Mengambil data nama laptop dan harga dari tabel laptop_table berdasarkan laptop_id
-                const sqlGetData = "SELECT name, price FROM laptop_table WHERE id = ?";
+                const sqlGetData = "SELECT name, price, image AS picture FROM laptop_table WHERE id = ?";
                 const [laptopResult] = await dbConnection.query(sqlGetData, laptopId);
         
                 // Jika data laptop ditemukan, tambahkan ke array laptopData
                 if (laptopResult.length > 0) {
                     const laptopName = laptopResult[0].name;
                     const price = laptopResult[0].price;
+                    const picture = laptopResult[0].picture;
                     const totalPricePerItem = quantity * price; // Hitung total harga per item
         
-                    laptopData.push({ laptopId, laptopName, quantity, price, totalPricePerItem });
+                    laptopData.push({ cartId, picture, laptopId, laptopName, quantity, price, totalPricePerItem });
                 }
             }
         
             response.json({
                 "status": true,
                 "message": "Data retrieved successfully",
-                "resultCart": dataCartId,
-                "resultLaptop": dataLaptopId,
-                "resultQuantity": dataQuantity,
-                "laptop": {
-                    laptopData},
+                "laptop": laptopData,
                 "ammountOfData": laptopData.length,                 
                 "priceAccumulation": totalPrice,
             });
