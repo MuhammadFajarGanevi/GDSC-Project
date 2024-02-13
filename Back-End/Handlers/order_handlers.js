@@ -184,11 +184,27 @@ function setupOrderHandler (router, dbConnection) {
     });
 
     // Mengubah status Orders
-    router.put('/', async (request, response) => {
+    router.put('/', verifyJWTMiddleware(jwtUtil) ,async (request, response) => {
         const data = [
             request.body.orderId,
             request.body.userId
         ];
+
+        const getId = request.user.userID
+        
+        const sqlGetData = "SELECT * FROM users_table WHERE id = ?"
+        const [rows] = await dbConnection.query(sqlGetData, getId)
+
+        const dataRole = rows[0].role 
+        
+        // Memeriksa apakah pengguna yang sedang login memiliki akses
+            if (!(dataRole == "admin")) {
+                return response.status(403).json({
+                    "status": false,
+                    "message": "Doesnt have access",
+                    "result": null
+                });
+            }
     
         try {
             await dbConnection.beginTransaction();
@@ -197,6 +213,8 @@ function setupOrderHandler (router, dbConnection) {
             const sqlGetData = "SELECT * FROM orders_table WHERE id = ? AND user_id = ? AND status = ?";
             const value = [data[0], data[1], status]
             const [resultGetData] = await dbConnection.query(sqlGetData, value);
+
+            
     
             if (resultGetData.length === 0) {
                 response.status(400).json({
