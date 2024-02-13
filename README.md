@@ -7,7 +7,7 @@ Laptopers adalah web penjualan laptop yang berjalan independen dengan menyediaka
 ~$ pnpm dev
 ```
 
-### Tech Stack Front-End
+## Tech Stack Front-End
 
 - Vanilla Javascript
 - vite (^5.0.8)
@@ -16,7 +16,7 @@ Laptopers adalah web penjualan laptop yang berjalan independen dengan menyediaka
 
 Inti project ini berpusat pada vanilla-version, dan next-version masih belum stabil (kemungkinan bulan depan akan dikerjakan yang versi NEXT.js sebagai drill project)
 
-### Preview
+## Preview
 
 > Click gambar untuk menonton VIDEO Preview
 
