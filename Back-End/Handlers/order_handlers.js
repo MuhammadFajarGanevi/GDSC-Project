@@ -126,7 +126,7 @@ function setupOrderHandler (router, dbConnection) {
 
     // Melihat Order
     router.get('/', verifyJWTMiddleware(jwtUtil), async (request, response) => {
-        const userId = request.body.userId; // Mendapatkan user_id dari permintaan
+        const userId = request.query.userId; // Mendapatkan user_id dari permintaan
         const userGetId = request.user.userID; // Mendapatkan user_id dari permintaan
 
         if (!(userId == userGetId)) {
