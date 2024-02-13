@@ -1,26 +1,27 @@
-const jwt = require('jsonwebtoken')
+const jwt = require('jsonwebtoken');
 
 class JWTUtil {
+  /**
+   * @param {object} payload
+   * @returns
+   */
 
+  encode(payload) {
+    return jwt.sign(
+      {
+        exp: Math.floor(Date.now() / 1000) + 60 * 60, // Batas waktu sejam
+        data: payload,
+      },
+      'secret'
+    );
+  }
 
-    /**
-     * @param {object} payload
-     * @returns
-     */
-    
-    encode(payload) {
-        return jwt.sign({
-            exp: Math.floor(Date.now() / 1000) + (60 * 60), // Batas waktu sejam
-            data: payload
-        }, 'secret');
-    }
-
-    /**
-     * @param {string} token
-     * @returns
-     */
-    decode(token) {
-        return jwt.verify(token, 'secret');
-    }
+  /**
+   * @param {string} token
+   * @returns
+   */
+  decode(token) {
+    return jwt.verify(token, 'secret');
+  }
 }
-module.exports = {JWTUtil}
+module.exports = { JWTUtil };

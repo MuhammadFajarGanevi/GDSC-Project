@@ -1,18 +1,18 @@
-const bcrypt = require('bcrypt')
+const bcrypt = require('bcrypt');
 
 class HashFunction {
-    saltRounds = 10
+  saltRounds = 10;
 
-    hash(plainText){
-        const salt = bcrypt.genSaltSync(this.saltRounds)
-        const hash = bcrypt.hashSync(plainText, salt)
+  hash(plainText) {
+    const salt = bcrypt.genSaltSync(this.saltRounds);
+    const hash = bcrypt.hashSync(plainText, salt);
 
-        return hash
-    }
-    
-    compare(plainText, hashedText) {
-        return bcrypt.compareSync(plainText, hashedText)
-    }
+    return hash;
+  }
+
+  compare(plainText, hashedText) {
+    return bcrypt.compareSync(plainText, hashedText);
+  }
 }
 
-module.exports = {HashFunction}
+module.exports = { HashFunction };
