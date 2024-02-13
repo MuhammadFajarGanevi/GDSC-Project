@@ -2,6 +2,11 @@
 
 Laptopers adalah web penjualan laptop yang berjalan independen dengan menyediakan berbagai laptop kualitas terbaik
 
+```
+~$ pnpm install
+~$ pnpm dev
+```
+
 ### Tech Stack Front-End
 
 - Vanilla Javascript
@@ -14,4 +19,5 @@ Inti project ini berpusat pada vanilla-version, dan next-version masih belum sta
 ### Preview
 
 - Responsive
+  <br>
   [![Video Preview](https://i9.ytimg.com/vi/4ey381Huc8Y/mqdefault.jpg?sqp=CKifrq4G-oaymwEmCMACELQB8quKqQMa8AEB-AH-CYAC0AWKAgwIABABGH8gMCg3MA8=&rs=AOn4CLAdvnLQE416YXwmhImtrTXqWdWGtw)](https://youtu.be/4ey381Huc8Y)
