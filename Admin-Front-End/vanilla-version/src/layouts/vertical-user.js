@@ -91,9 +91,9 @@ function setListener() {
     .addEventListener("click", async () => {
       const jwtToken = localStorage.getItem("jwtToken");
 
-      const response = AxiosAction.post(
+      const response = await AxiosAction.post(
         "/auth/logout",
-        {},
+        { email: localStorage.getItem("email") },
         {
           headers: {
             Authorization: jwtToken,
@@ -101,6 +101,7 @@ function setListener() {
         }
       );
 
-      console.log(response);
+      localStorage.clear();
+      window.location.href = "/login";
     });
 }

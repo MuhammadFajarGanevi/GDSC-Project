@@ -93,8 +93,6 @@ async function register() {
     };
     const response = await AxiosAction.post("/user/signup", data);
 
-    console.log(response);
-
     await Swal.fire({
       toast: true,
       position: "top",
@@ -108,7 +106,7 @@ async function register() {
       title: "Akun berhasil ditambahkan",
     });
 
-    // window.location.href = "/login";
+    window.location.href = "/login";
   } catch (error) {
     Swal.fire({
       toast: true,

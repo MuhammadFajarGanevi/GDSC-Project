@@ -1,11 +1,12 @@
 import AxiosAction from "../actions/AxiosAction";
 import { lockIcon } from "../icons/IconsRepository";
+import Swal from "sweetalert2";
+
+const jwtToken = localStorage.getItem("jwtToken");
 
 // Buat fungsi untuk merender konten halaman
 export async function renderAkun() {
   try {
-    const jwtToken = localStorage.getItem("jwtToken");
-
     const response = await AxiosAction.get("/user/user", {
       headers: {
         Authorization: jwtToken,
@@ -13,13 +14,13 @@ export async function renderAkun() {
     });
 
     console.log(response.data);
-    const data = response.data.result[0];
+    const dataUser = response.data.result[0];
 
     const content = /* HTML */ `
       <link rel="stylesheet" href="style/akun.css" />
 
       <div class="container">
-        <h3>${data.email}</h3>
+        <h3>${dataUser.email}</h3>
         <div class="card mt-4">
           <img
             alt="latar"
@@ -29,11 +30,16 @@ export async function renderAkun() {
           <div class="col-6">
             <h4 class="my-5">Kelola Informasi Akun</h4>
             <div class="input-container">
-              <input type="text" required id="name" value="${data.name}" />
+              <input type="text" required id="name" value="${dataUser.name}" />
               <label for="name">Nama Lengkap</label>
             </div>
             <div class="input-container">
-              <input type="text" required id="alamat" value="${data.address}" />
+              <input
+                type="text"
+                required
+                id="alamat"
+                value="${dataUser.address}"
+              />
               <label for="alamat">Alamat</label>
             </div>
             <div class="input-container">
@@ -41,11 +47,11 @@ export async function renderAkun() {
                 type="text"
                 required
                 id="no_telp"
-                value="${data.phone_number}"
+                value="${dataUser.phone_number}"
               />
               <label for="no_telp">Nomor Telepon</label>
             </div>
-            <button class="btn">Simpan perubahan</button>
+            <button class="btn" id="submit-data">Simpan perubahan</button>
           </div>
         </div>
         <div class="card mt-4">
@@ -77,7 +83,7 @@ export async function renderAkun() {
               <input type="text" required id="konfirmasi_password" />
               <label for="konfirmasi_password">Konfirmasi Password</label>
             </div>
-            <button class="btn">Ubah Password</button>
+            <button class="btn" id="submit-password">Ubah Password</button>
           </div>
         </div>
       </div>
@@ -87,6 +93,10 @@ export async function renderAkun() {
     setListener();
   } catch (error) {
     console.log(error);
+    if (error.response.status == 401) {
+      localStorage.clear();
+      window.location.href = "/login";
+    }
   }
 }
 
@@ -96,5 +106,130 @@ function setListener() {
     .addEventListener("click", () => {
       document.getElementById("passbox-1").classList.toggle("passbox-inactive");
       document.getElementById("passbox-2").classList.toggle("passbox-inactive");
+    });
+  document
+    .getElementById("submit-data")
+    .addEventListener("click", async (element) => {
+      document.getElementById("submit-data").classList.add("btn-inactive");
+      try {
+        const data = {
+          userId: localStorage.getItem("id"),
+          name: document.getElementById("name").value,
+          alamat: document.getElementById("alamat").value,
+          no_telp: document.getElementById("no_telp").value,
+        };
+
+        if (
+          data.name.length < 1 ||
+          data.alamat.length < 1 ||
+          data.no_telp.length < 1
+        ) {
+          Swal.fire({
+            toast: true,
+            position: "top",
+            iconColor: "white",
+            color: "white",
+            background: "var(--error)",
+            showConfirmButton: false,
+            timerProgressBar: true,
+            timer: 3000,
+            icon: "error",
+            title: "Lengkapi data!",
+          });
+
+          setTimeout(function () {
+            document
+              .getElementById("submit-data")
+              .classList.remove("btn-inactive");
+          }, 500);
+          return;
+        }
+        const response = await AxiosAction.put("/user", data, {
+          headers: {
+            Authorization: jwtToken,
+          },
+        });
+
+        Swal.fire({
+          toast: true,
+          position: "top",
+          iconColor: "white",
+          color: "white",
+          background: "var(--success)",
+          showConfirmButton: false,
+          timerProgressBar: true,
+          timer: 2000,
+          icon: "success",
+          title: "Data akun berhasil diubah",
+        });
+      } catch (error) {
+        if (error.response.status == 401) {
+          localStorage.clear();
+          window.location.href = "/login";
+        }
+      }
+
+      setTimeout(function () {
+        document.getElementById("submit-data").classList.remove("btn-inactive");
+      }, 500);
+    });
+  document
+    .getElementById("submit-password")
+    .addEventListener("click", async () => {
+      document.getElementById("submit-password").classList.add("btn-inactive");
+      try {
+        const data = {
+          oldPassword: document.getElementById("password_lama").value,
+          newPassword: document.getElementById("password_baru").value,
+          confirmPassword: document.getElementById("konfirmasi_password").value,
+        };
+        const response = await AxiosAction.post("/auth/reset-password", data, {
+          headers: {
+            Authorization: jwtToken,
+          },
+        });
+
+        Swal.fire({
+          toast: true,
+          position: "top",
+          iconColor: "white",
+          color: "white",
+          background: "var(--success)",
+          showConfirmButton: false,
+          timerProgressBar: true,
+          timer: 2000,
+          icon: "success",
+          title: "Password berhasil diperbarui",
+        });
+        document
+          .getElementById("passbox-1")
+          .classList.toggle("passbox-inactive");
+        document
+          .getElementById("passbox-2")
+          .classList.toggle("passbox-inactive");
+      } catch (error) {
+        Swal.fire({
+          toast: true,
+          position: "top",
+          iconColor: "white",
+          color: "white",
+          background: "var(--error)",
+          showConfirmButton: false,
+          timerProgressBar: true,
+          timer: 3000,
+          icon: "error",
+          title: error.response.data.message,
+        });
+        if (error.response.status == 401) {
+          localStorage.clear();
+          window.location.href = "/login";
+        }
+      }
+
+      setTimeout(function () {
+        document
+          .getElementById("submit-password")
+          .classList.remove("btn-inactive");
+      }, 500);
     });
 }

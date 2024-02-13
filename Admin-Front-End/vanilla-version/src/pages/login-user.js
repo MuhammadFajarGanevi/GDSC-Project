@@ -9,12 +9,7 @@ export function renderLogin() {
 
     <img alt="tree" id="tanaman-kiri" src="/images/pages/auth-v1-tree.png" />
 
-    <img
-      alt="latar"
-      id="latar"
-      src="/images/pages/auth-v1-mask-light.png"
-      class="css-84vgca"
-    />
+    <img alt="latar" id="latar" src="/images/pages/auth-v1-mask-light.png" />
 
     <div class="container">
       <div class="flex-d-col card">
@@ -81,6 +76,7 @@ function setListener() {
           "jwtToken",
           `Bearer ${response.data.result.accessToken}`
         );
+        console.log(response);
         localStorage.setItem("email", data.email);
         localStorage.setItem("id", response.data.id);
         localStorage.setItem("role", response.data.role);
