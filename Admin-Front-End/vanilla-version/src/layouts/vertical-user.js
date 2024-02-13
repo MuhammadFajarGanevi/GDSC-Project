@@ -39,11 +39,11 @@ export function renderVericalUser() {
     <aside class="col">
       <div class="flex-d-col mt-4">
         <div class="row">
-          <div class="col-3 ml-3 d-flex jc-right" style="padding-right:0;">
-            <img height="55" src="logo.png" />
+          <div class="col-4 ml-3 d-flex jc-right" style="padding-right:0;">
+            <img height="55" src="logo.webp" />
           </div>
-          <div class="col-9 d-flex jc-left a-center">
-            <h5>LAPTOPERS</h5>
+          <div class="col-8 d-flex jc-left a-center ml-2">
+            <h4>LAPTOPERS</h4>
           </div>
         </div>
       </div>
@@ -91,9 +91,9 @@ function setListener() {
     .addEventListener("click", async () => {
       const jwtToken = localStorage.getItem("jwtToken");
 
-      const response = AxiosAction.post(
+      const response = await AxiosAction.post(
         "/auth/logout",
-        {},
+        { email: localStorage.getItem("email") },
         {
           headers: {
             Authorization: jwtToken,
@@ -101,6 +101,7 @@ function setListener() {
         }
       );
 
-      console.log(response);
+      localStorage.clear();
+      window.location.href = "/login";
     });
 }

@@ -10,7 +10,7 @@ async function renderPage(path) {
     window.location.href = "/404.html";
   }
 
-  roleValidated(route.role);
+  roleValidated(localStorage.getItem("role"), route.role);
 
   // Ambil konten layout
   route.layout();

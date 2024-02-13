@@ -19,7 +19,7 @@ export function renderRegister() {
       <div class="flex-d-col card">
         <div class="row mb-5">
           <div class="col-5 d-flex jc-right">
-            <img class="mr-3" height="60" src="logo.png" />
+            <img class="mr-3" height="65" src="logo.webp" />
           </div>
           <div class="col-7 d-flex jc-left a-center">
             <h3>LAPTOPERS</h3>
@@ -93,8 +93,6 @@ async function register() {
     };
     const response = await AxiosAction.post("/user/signup", data);
 
-    console.log(response);
-
     await Swal.fire({
       toast: true,
       position: "top",
@@ -108,7 +106,7 @@ async function register() {
       title: "Akun berhasil ditambahkan",
     });
 
-    // window.location.href = "/login";
+    window.location.href = "/login";
   } catch (error) {
     Swal.fire({
       toast: true,

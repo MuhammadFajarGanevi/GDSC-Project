@@ -117,6 +117,16 @@ button:active::after {
   border: 1px solid var(--primary);
 }
 
+.btn-inactive {
+  background-color: var(--secondary);
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.bg-info {
+  background-color: var(--secondary);
+}
+
 .menu {
   position: relative;
   display: none;
@@ -209,6 +219,10 @@ p {
   text-align: center;
 }
 
+.text-right {
+  text-align: right;
+}
+
 .col {
   display: flex;
   flex-direction: column;
@@ -228,8 +242,6 @@ p {
 /* General column classes */
 [class^="col-"] {
   min-height: 1px;
-  padding-right: 15px;
-  padding-left: 15px;
   flex-grow: 1;
   max-width: 100%;
 }
@@ -289,8 +301,7 @@ p {
 /* Responsive styles */
 @media (max-width: 768px) {
   [class^="col-sm-"] {
-    flex-basis: 0;
-    flex-grow: 1;
+    /* flex-basis: 0; */
     max-width: 100%;
   }
 
@@ -352,6 +363,12 @@ p {
 .flex-d-col {
   display: flex;
   flex-direction: column;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  grid-gap: 1.25rem;
 }
 
 .container {
