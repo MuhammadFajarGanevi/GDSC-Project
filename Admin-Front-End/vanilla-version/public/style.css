@@ -162,6 +162,12 @@ button:active::after {
   border-radius: 50%;
 }
 
+@keyframes expandLeft {
+  to {
+    left: 250px;
+  }
+}
+
 .menu:hover {
   background-color: rgba(
     var(--shadow-r),
@@ -180,6 +186,10 @@ button:active::after {
 @media (max-width: 1000px) {
   .menu {
     display: flex;
+  }
+  .menu-active {
+    left: 0;
+    animation: expandLeft 0.5s ease forwards alternate;
   }
 }
 

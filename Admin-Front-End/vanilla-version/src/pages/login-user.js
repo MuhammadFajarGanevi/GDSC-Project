@@ -95,10 +95,6 @@ function setListener() {
           icon: "error",
           title: "Email atau Password salah",
         });
-        if (error.response.status == 500) {
-          localStorage.clear();
-          window.location.href = "/500.html";
-        }
       }
     });
 }

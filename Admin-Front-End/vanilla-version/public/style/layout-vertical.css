@@ -13,14 +13,23 @@ aside {
   color: rgba(var(--shadow-r), var(--shadow-g), var(--shadow-b), 0.87);
   overflow: hidden;
   position: relative;
+  z-index: 2;
 }
 
-.sidebar-active {
-  width: 260px;
+@keyframes expandWidth {
+  to {
+    width: 260px;
+  }
 }
 
 /* Responsive styles */
 @media (max-width: 1000px) {
+  .sidebar-active {
+    width: 0;
+    animation: expandWidth 0.5s ease forwards alternate;
+    position: absolute;
+    background-color: var(--light);
+  }
   aside {
     width: 0;
   }

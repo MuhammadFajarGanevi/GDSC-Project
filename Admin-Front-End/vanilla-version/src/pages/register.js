@@ -120,9 +120,5 @@ async function register() {
       icon: "error",
       title: "Isi data dengan sesuai",
     });
-    if (error.response.status == 500) {
-      localStorage.clear();
-      window.location.href = "/500.html";
-    }
   }
 }

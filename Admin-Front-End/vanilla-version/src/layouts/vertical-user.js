@@ -88,6 +88,9 @@ export function renderVericalUser() {
 }
 
 function setListener() {
+  const sideBar = document.querySelector("aside");
+  const menuButton = document.querySelector(".menu");
+
   document
     .getElementById("logoutButton")
     .addEventListener("click", async () => {
@@ -118,4 +121,9 @@ function setListener() {
         window.location.href = "/login";
       }
     });
+
+  menuButton.addEventListener("click", async () => {
+    menuButton.classList.toggle("menu-active");
+    sideBar.classList.toggle("sidebar-active");
+  });
 }
