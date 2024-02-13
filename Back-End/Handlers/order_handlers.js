@@ -125,53 +125,69 @@ function setupOrderHandler (router, dbConnection) {
     })
 
     // Melihat Order
-    router.get('/', verifyJWTMiddleware(jwtUtil) ,async (request, response) => {
+    router.get('/', verifyJWTMiddleware(jwtUtil), async (request, response) => {
         const userId = request.body.userId; // Mendapatkan user_id dari permintaan
-        const getId = request.user.userID
+        const userGetId = request.user.userID; // Mendapatkan user_id dari permintaan
+
+        if (!(userId == userGetId)) {
+            response.status(403).json({
+                "status":false,
+                "message": "doesnt have access"
+            })
+            return
+        }
     
         try {
-            const sqlGetId = "SELECT cart_id, laptop_id, quantity, total_price FROM orders_table WHERE user_id = ?";
-            const value1 = [userId]
-            const [resultGetId] = await dbConnection.query(sqlGetId, value1);
-        
-            // Memisahkan string menjadi array dan mengonversi elemen menjadi tipe numerik
-            const dataCartId = resultGetId[0].cart_id.split(',').map(Number);
-            const dataLaptopId = resultGetId[0].laptop_id.split(',').map(Number);
-            const dataQuantity = resultGetId[0].quantity.split(',').map(Number);
-        
-            // Membuat array kosong untuk menampung data laptop
-            const laptopData = [];
-            const totalPrice = resultGetId[0].total_price 
-
-        
-            // Loop melalui setiap elemen dalam dataLaptopId dan dataQuantity
-            for (let i = 0; i < dataLaptopId.length; i++) {
-                // Mengambil laptop_id dan quantity saat ini
-                const laptopId = dataLaptopId[i];
-                const quantity = dataQuantity[i];
-                const cartId = dataCartId[i];
-        
-                // Mengambil data nama laptop dan harga dari tabel laptop_table berdasarkan laptop_id
-                const sqlGetData = "SELECT name, price, image AS picture FROM laptop_table WHERE id = ?";
-                const [laptopResult] = await dbConnection.query(sqlGetData, laptopId);
-        
-                // Jika data laptop ditemukan, tambahkan ke array laptopData
-                if (laptopResult.length > 0) {
-                    const laptopName = laptopResult[0].name;
-                    const price = laptopResult[0].price;
-                    const picture = laptopResult[0].picture;
-                    const totalPricePerItem = quantity * price; // Hitung total harga per item
-        
-                    laptopData.push({ cartId, picture, laptopId, laptopName, quantity, price, totalPricePerItem });
+            const sqlGetId = "SELECT id, cart_id, laptop_id, quantity, total_price, DATE_FORMAT(order_date, '%Y-%M-%D') AS order_date, status FROM orders_table WHERE user_id = ?";
+            const [resultGetId] = await dbConnection.query(sqlGetId, userId);
+            
+            // Objek untuk menyimpan hasil yang telah dipisahkan berdasarkan ID
+            const ordersData = {};
+    
+            // Loop melalui setiap baris hasil
+            for (const row of resultGetId) {
+                // Memeriksa apakah ID sudah ada di objek ordersData, jika tidak, tambahkan sebagai kunci baru dengan nilai array kosong
+                if (!ordersData[row.id]) {
+                    ordersData[row.id] = [];
+                }
+    
+                // Memisahkan string menjadi array dan mengonversi elemen menjadi tipe numerik
+                const dataCartId = row.cart_id.split(',').map(Number);
+                const dataLaptopId = row.laptop_id.split(',').map(Number);
+                const dataQuantity = row.quantity.split(',').map(Number);
+                const dataOrder_date = row.order_date;
+                const dataStatus = row.status;
+    
+                // Loop melalui setiap elemen dalam dataLaptopId dan dataQuantity
+                for (let i = 0; i < dataLaptopId.length; i++) {
+                    // Mengambil laptop_id dan quantity saat ini
+                    const laptopId = dataLaptopId[i];
+                    const quantity = dataQuantity[i];
+                    const cartId = dataCartId[i];
+    
+                    // Mengambil data nama laptop dan harga dari tabel laptop_table berdasarkan laptop_id
+                    const sqlGetData = "SELECT name, price, image AS picture FROM laptop_table WHERE id = ?";
+                    const [laptopResult] = await dbConnection.query(sqlGetData, laptopId);
+    
+                    // Jika data laptop ditemukan, tambahkan ke array ordersData sesuai dengan ID-nya
+                    if (laptopResult.length > 0) {
+                        const laptopName = laptopResult[0].name;
+                        const price = laptopResult[0].price;
+                        const picture = laptopResult[0].picture;
+                        const totalPricePerItem = quantity * price; // Hitung total harga per item
+    
+                        // Tambahkan data ke dalam objek ordersData
+                        ordersData[row.id].push({
+                            cartId, picture, laptopId, laptopName, quantity, price, totalPricePerItem, dataOrder_date, dataStatus
+                        });
+                    }
                 }
             }
-        
+    
             response.json({
                 "status": true,
                 "message": "Data retrieved successfully",
-                "laptop": laptopData,
-                "ammountOfData": laptopData.length,                 
-                "priceAccumulation": totalPrice,
+                "orders": ordersData,
             });
         } catch (error) {
             console.log(error);
@@ -182,6 +198,10 @@ function setupOrderHandler (router, dbConnection) {
             });
         }
     });
+    
+    
+    
+    
 
     // Mengubah status Orders
     router.put('/', verifyJWTMiddleware(jwtUtil) ,async (request, response) => {
