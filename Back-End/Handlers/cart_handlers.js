@@ -30,7 +30,7 @@ function setupCartHandler (router, dbConnection) {
                 return
             }
             
-            const sql = "SELECT c.id AS cart_id, c.laptop_id,l.name, c.quantity, (l.price * c.quantity) AS total_price, c.status, l.quantity AS max_quantity FROM cart_table c JOIN laptop_table l ON c.laptop_id = l.id WHERE c.user_id = ? AND c.status = 'pending'"
+            const sql = "SELECT c.id AS cart_id, l.image AS picture , c.laptop_id,l.name, c.quantity, l.price, (l.price * c.quantity) AS total_price, l.quantity AS max_quantity,  c.status  FROM cart_table c JOIN laptop_table l ON c.laptop_id = l.id WHERE c.user_id = ? AND c.status = 'pending'"
             const [rows] = await dbConnection.query(sql, data)
 
             // Menghitung total harga
@@ -82,7 +82,6 @@ function setupCartHandler (router, dbConnection) {
     
             // Cek apakah data sudah ada
             const isDataExists = rowsCheck.length > 0;
-            console.log(isDataExists)
     
             if (isDataExists) {
                 // Jika data sudah ada dan statusnya "pending", lakukan update
