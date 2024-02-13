@@ -23,22 +23,17 @@ function setupLaptopHandler (router, dbConnection) {
             let value = []
             let sql
 
-            if (data[0]) { 
-                sql = "SELECT * FROM laptop_table WHERE id = ?"
-                value.push(data[0])
-            } else if (data[1]) {
-                sql = "SELECT * FROM laptop_table WHERE name LIKE ?"
-                value.push(`%${data[1]}%`)
+            if (data[0] !== '') { 
+                sql = "SELECT * FROM laptop_table WHERE id = ?";
+                value.push(data[0]);
+            } else if (data[1] !== '') {
+                sql = "SELECT * FROM laptop_table WHERE name LIKE ?";
+                value.push(`%${data[1]}%`);
             } else {
-                response.status(400).json({
-                    "status": false,
-                    "message": "No request",
-                    "result": null
-                })
-                return 
+                sql = "SELECT * FROM laptop_table";
             }
-
-            const [row] = await dbConnection.query(sql, value)
+            
+            const [row] = await dbConnection.query(sql, value);
             
             if (row.length > 0 ) {
                 response.json({
