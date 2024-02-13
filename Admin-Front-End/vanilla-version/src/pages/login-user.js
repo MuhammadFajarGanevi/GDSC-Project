@@ -9,20 +9,15 @@ export function renderLogin() {
 
     <img alt="tree" id="tanaman-kiri" src="/images/pages/auth-v1-tree.png" />
 
-    <img
-      alt="latar"
-      id="latar"
-      src="/images/pages/auth-v1-mask-light.png"
-      class="css-84vgca"
-    />
+    <img alt="latar" id="latar" src="/images/pages/auth-v1-mask-light.png" />
 
     <div class="container">
       <div class="flex-d-col card">
         <div class="row mb-5">
-          <div class="col-5 d-flex jc-right" style="padding-right: 0">
-            <img class="mr-3" height="70" src="logo.png" />
+          <div class="col-5 d-flex jc-right">
+            <img class="mr-3" height="70" src="logo.webp" />
           </div>
-          <div class="col-7 d-flex jc-left a-center" style="padding-left: 0">
+          <div class="col-7 d-flex jc-left a-center">
             <h3>LAPTOPERS</h3>
           </div>
         </div>
@@ -81,7 +76,10 @@ function setListener() {
           "jwtToken",
           `Bearer ${response.data.result.accessToken}`
         );
+        console.log(response);
         localStorage.setItem("email", data.email);
+        localStorage.setItem("id", response.data.id);
+        localStorage.setItem("role", response.data.role);
 
         window.location.href = "/user";
       } catch (error) {

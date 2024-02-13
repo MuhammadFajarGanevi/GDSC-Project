@@ -6,6 +6,7 @@ import { renderRegister } from "../pages/register";
 import { renderPenjualan } from "../pages/penjualan";
 import { renderAkun } from "../pages/akun";
 import { renderPembelian } from "../pages/pembelian";
+import { renderKeranjang } from "../pages/keranjang";
 
 // vanilla router
 export const routes = {
@@ -19,13 +20,18 @@ export const routes = {
     layout: renderVericalUser,
     role: "user",
   },
-  "/pembelian": {
-    page: renderPembelian,
+  "/akun": {
+    page: renderAkun,
     layout: renderVericalUser,
     role: "user",
   },
-  "/akun": {
-    page: renderAkun,
+  "/keranjang": {
+    page: renderKeranjang,
+    layout: renderVericalUser,
+    role: "user",
+  },
+  "/pembelian": {
+    page: renderPembelian,
     layout: renderVericalUser,
     role: "user",
   },
