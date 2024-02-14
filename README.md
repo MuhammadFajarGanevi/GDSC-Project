@@ -9,8 +9,8 @@ Laptopers adalah web penjualan laptop yang berjalan independen dengan menyediaka
 ~$ pnpm dev
 ```
 
-- [Front-End Preview](laptopers.vercel.app/user)
-- [Skema API](openapi-laptopers.vercel.app)
+- [Front-End Preview](https://laptopers.vercel.app/user)
+- [Skema API](https://openapi-laptopers.000webhostapp.com/)
 
 ## Tech Stack Front-End
 
