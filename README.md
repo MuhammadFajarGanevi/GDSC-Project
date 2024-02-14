@@ -3,9 +3,14 @@
 Laptopers adalah web penjualan laptop yang berjalan independen dengan menyediakan berbagai laptop kualitas terbaik
 
 ```
+~$ cd Admin-Front-End
+~$ cd vanilla-version
 ~$ pnpm install
 ~$ pnpm dev
 ```
+
+- [Front-End Preview](https://laptopers.vercel.app/user)
+- [Skema API](https://openapi-laptopers.000webhostapp.com/)
 
 ## Tech Stack Front-End
 

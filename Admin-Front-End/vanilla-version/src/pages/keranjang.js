@@ -73,8 +73,8 @@ export async function renderKeranjang() {
         }</p>
         <button class="btn mr-5 ${
           dataCart.priceAccumulation == 0 ? "btn-inactive" : ""
-        }" id="submit-password">Check Out</button>
-        <button class="btn bg-secondary" id="submit-password">
+        }" id="check-out">Check Out</button>
+        <button class="btn bg-secondary">
           Pergi Menjelajah
         </button>
       </div>
@@ -102,6 +102,65 @@ function setListener() {
   const totalPrices = document.querySelectorAll(".total-price");
   const priceAccumulation = document.querySelector(".price-accumulation");
   const countData = document.querySelector(".count-data");
+  const checkOutBtn = document.getElementById("check-out");
+
+  checkOutBtn.addEventListener("click", async () => {
+    checkOutBtn.classList.add("btn-inactive");
+    try {
+      const ask = await Swal.fire({
+        title: `Lakukan pembelian barang?`,
+        showConfirmButton: true,
+        showCancelButton: true,
+        confirmButtonText: "Order Barang",
+        cancelButtonText: "Batal",
+        confirmButtonColor: "var(--primary)",
+        cancelButtonColor:
+          "rgba(var(--shadow-r),var(--shadow-g),var(--shadow-b), 0.65)",
+      });
+      if (ask.isConfirmed) {
+        const response = await AxiosAction.post(
+          "/order",
+          { userId: idUser },
+          {
+            headers: {
+              Authorization: jwtToken,
+            },
+          }
+        );
+        if (response.data.status) {
+          Swal.fire({
+            toast: true,
+            position: "top",
+            iconColor: "white",
+            color: "white",
+            background: "var(--success)",
+            showConfirmButton: false,
+            timerProgressBar: true,
+            timer: 2000,
+            icon: "success",
+            title: "Status Barang sudah masuk ke pembelian!",
+          });
+        }
+      } else {
+        checkOutBtn.classList.remove("btn-inactive");
+      }
+    } catch (error) {
+      console.log(error);
+      Swal.fire({
+        toast: true,
+        position: "top",
+        iconColor: "white",
+        color: "white",
+        background: "var(--error)",
+        showConfirmButton: false,
+        timerProgressBar: true,
+        timer: 3000,
+        icon: "error",
+        title: error.response.data.message,
+      });
+      checkOutBtn.classList.remove("btn-inactive");
+    }
+  });
 
   increaseBtns.forEach(function (btn, index) {
     btn.addEventListener("click", async () => {
