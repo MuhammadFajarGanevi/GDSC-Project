@@ -1,0 +1,47 @@
+:root {
+  --primary-h: 261;
+  --primary-s: 98%;
+  --primary-l: 66%;
+  --primary: hsl(var(--primary-h), var(--primary-s), var(--primary-l));
+
+  --secondary-h: 270; /* Ungu tua */
+  --secondary-s: 20%; /* Saturasi yang rendah */
+  --secondary-l: 70%; /* Kecerahan yang lebih rendah */
+  --secondary: hsl(var(--secondary-h), var(--secondary-s), var(--secondary-l));
+
+  --error-h: 0; /* Hue yang menghasilkan warna merah */
+  --error-s: 70%; /* Saturasi yang menengah */
+  --error-l: 60%; /* Kecerahan yang moderat */
+  --error: hsl(var(--error-h), var(--error-s), var(--error-l));
+
+  --success-h: 120; /* Hue yang menghasilkan warna hijau */
+  --success-s: 70%; /* Saturasi yang menengah */
+  --success-l: 60%; /* Kecerahan yang moderat */
+  --success: hsl(var(--success-h), var(--success-s), var(--success-l));
+
+  --warning-h: 40; /* Hue yang menghasilkan warna oranye */
+  --warning-s: 70%; /* Saturasi yang menengah */
+  --warning-l: 60%; /* Kecerahan yang moderat */
+  --warning: hsl(var(--warning-h), var(--warning-s), var(--warning-l));
+
+  --info-h: 180; /* Warna hijau toska yang lebih segar */
+  --info-s: 70%; /* Saturasi yang menengah */
+  --info-l: 60%; /* Kecerahan yang moderat */
+  --info: hsl(var(--info-h), var(--info-s), var(--info-l));
+
+  --light-h: 230; /* Hue yang menghasilkan warna putih */
+  --light-s: 37%; /* Saturasi rendah untuk mendapatkan putih murni */
+  --light-l: 97%; /* Kecerahan yang tinggi untuk warna yang lebih terang */
+  --light: hsl(var(--light-h), var(--light-s), var(--light-l));
+
+  --dark-h: 220; /* Hue yang menghasilkan warna biru keunguan */
+  --dark-s: 70%; /* Saturasi yang menengah */
+  --dark-l: 25%; /* Kecerahan yang rendah */
+  --dark: hsl(var(--dark-h), var(--dark-s), var(--dark-l));
+
+  --shadow-r: 58;
+  --shadow-g: 53;
+  --shadow-b: 65;
+
+  --white: #fff;
+}

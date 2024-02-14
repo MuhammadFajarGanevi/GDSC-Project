@@ -1,3 +1,0 @@
-# penjualan laptop
-
-## about
